@@ -7,11 +7,12 @@ use proc_macro2::TokenStream;
 /// Reads the current step from a file, increments it, and writes it back.
 /// Returns the incremented step count.
 pub fn get_and_increment_step_count() -> u32 {
-    let project_root = Path::new("/data/data/com.termux/files/home/storage/github/rustc/"); // Hardcoded project root
+    let project_root = Path::new("/data/data/com.termux/files/home/storage/github/rustc/crates/introspector/"); // Hardcoded project root
     let gemini_dir = project_root.join(".gemini");
     let step_file_path = gemini_dir.join("self_proving_step.txt");
 
     // Ensure .gemini directory exists
+    println!("DEBUG: self_proving_step_path: {}", step_file_path.display());
     fs::create_dir_all(&gemini_dir).unwrap();
 
     let mut current_step = 0;
