@@ -32,6 +32,16 @@ pub fn lattice_point_derive(input: TokenStream) -> TokenStream {
         lattice_types::LatticePointKind::PredictedExecution => quote! { lattice_types::LatticePointKind::PredictedExecution },
         lattice_types::LatticePointKind::ActualExecution => quote! { lattice_types::LatticePointKind::ActualExecution },
         lattice_types::LatticePointKind::LogEvent => quote! { lattice_types::LatticePointKind::LogEvent },
+        lattice_types::LatticePointKind::GeminiAgent => quote! { lattice_types::LatticePointKind::GeminiAgent },
+        lattice_types::LatticePointKind::OllamaAgent => quote! { lattice_types::LatticePointKind::OllamaAgent },
+        lattice_types::LatticePointKind::GGUFModel => quote! { lattice_types::LatticePointKind::GGUFModel },
+        lattice_types::LatticePointKind::HuggingFaceDataset => quote! { lattice_types::LatticePointKind::HuggingFaceDataset },
+        lattice_types::LatticePointKind::GitHubRepository => quote! { lattice_types::LatticePointKind::GitHubRepository },
+        lattice_types::LatticePointKind::GitHubAccount => quote! { lattice_types::LatticePointKind::GitHubAccount },
+        lattice_types::LatticePointKind::GitCommit => quote! { lattice_types::LatticePointKind::GitCommit },
+        lattice_types::LatticePointKind::PullRequest => quote! { lattice_types::LatticePointKind::PullRequest },
+        lattice_types::LatticePointKind::GitHubActionRun => quote! { lattice_types::LatticePointKind::GitHubActionRun },
+        lattice_types::LatticePointKind::GitDerivedAsset => quote! { lattice_types::LatticePointKind::GitDerivedAsset },
     };
 
     let metadata_inserts = introspected_point.metadata.iter().map(|(k, v)| {

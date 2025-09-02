@@ -16,7 +16,18 @@ pub enum LatticePointKind {
     MarkdownDocument,
     PredictedExecution,
     ActualExecution,
-    LogEvent, // Added for structured log events
+    LogEvent,
+    GeminiAgent,
+    OllamaAgent, // Added for Ollama instances
+    GGUFModel,   // Added for GGUF models
+    HuggingFaceDataset, // Added for Hugging Face datasets
+    GitHubRepository,   // Added for GitHub repositories
+    GitHubAccount,      // Added for GitHub accounts/organizations
+    GitCommit,          // Added for Git commits
+    PullRequest,        // Added for Pull Requests
+    GitHubActionRun,    // Added for GitHub Action runs
+    GitDerivedAsset,    // Added for assets derived from Git repos
+    UserIntent,         // Added for user intent/vibe as a multivector
     // Add more kinds as needed for the "universe of universes"
 }
 
