@@ -35,6 +35,7 @@ pub fn generate_lattice_registration_code(
     generators::transformation::generate_transformation_code(&mut getter_function_definitions, &mut add_point_calls);
     generators::compiler_transformation::generate_compiler_transformation_code(&mut getter_function_definitions, &mut add_point_calls);
     generators::godelian_truth::generate_godelian_truth_code(&mut getter_function_definitions, &mut add_point_calls);
+    generators::meta_attributes::generate_meta_attributes_code(&mut getter_function_definitions, &mut add_point_calls, Path::new("/data/data/com.termux/files/home/storage/github/rustc/crates/introspector/LATTICE_POEM_MAPPING.md")); // Add this line
 
     let generated_code = quote! {
         #(#getter_function_definitions)*
