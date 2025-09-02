@@ -79,6 +79,9 @@ pub fn generate_lattice_registration_code(
     generators::model_types::generate_model_types_code(&mut getter_function_definitions, &mut add_point_calls);
     generators::git_related::generate_git_related_points_code(&mut getter_function_definitions, &mut add_point_calls);
     generators::user_intent::generate_user_intent_code(&mut getter_function_definitions, &mut add_point_calls);
+    generators::transformation::generate_transformation_code(&mut getter_function_definitions, &mut add_point_calls);
+    generators::compiler_transformation::generate_compiler_transformation_code(&mut getter_function_definitions, &mut add_point_calls);
+    generators::godelian_truth::generate_godelian_truth_code(&mut getter_function_definitions, &mut add_point_calls);
 
     let generated_code = quote! {
         #(#getter_function_definitions)*
@@ -94,7 +97,7 @@ pub fn generate_lattice_registration_code(
 // Helper function to determine the module prefix for a given Ident
 pub fn get_module_prefix_for_ident(ident: &Ident) -> TokenStream {
     match ident.to_string().as_str() {
-        "Repository" | "GitSubmodule" | "CargoCrate" | "RustFile" | "FfiBinding" | "MarkdownDocument" | "SelfProvingStatement" | "GeminiAgent" | "OllamaAgent" | "GGUFModel" | "HuggingFaceDataset" | "GitHubRepository" | "GitHubAccount" | "GitCommit" | "PullRequest" | "GitHubActionRun" | "GitDerivedAsset" | "UserIntent" => quote! { crate::model:: },
+        "Repository" | "GitSubmodule" | "CargoCrate" | "RustFile" | "FfiBinding" | "MarkdownDocument" | "SelfProvingStatement" | "GeminiAgent" | "OllamaAgent" | "GGUFModel" | "HuggingFaceDataset" | "GitHubRepository" | "GitHubAccount" | "GitCommit" | "PullRequest" | "GitHubActionRun" | "GitDerivedAsset" | "UserIntent" | "Transformation" | "CompilerTransformation" | "GodelianTruth" => quote! { crate::model:: },
         "RustcInvocation" => quote! { crate::compilation:: },
         "CompilerMemoryLocation" | "CompilerInternalRepresentation" => quote! { crate::compiler_ir:: },
         "Instruction" | "MemoryRegion" | "MemoryAccess" | "AccessType" => quote! { crate::execution:: },

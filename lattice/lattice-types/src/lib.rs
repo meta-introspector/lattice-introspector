@@ -28,6 +28,9 @@ pub enum LatticePointKind {
     GitHubActionRun,    // Added for GitHub Action runs
     GitDerivedAsset,    // Added for assets derived from Git repos
     UserIntent,         // Added for user intent/vibe as a multivector
+    Transformation,     // Added for representing transformations/matrix operations
+    CompilerTransformation, // Added for representing compiler transformations
+    GodelianTruth,          // Added for representing unprovable truths/foundational axioms
     // Add more kinds as needed for the "universe of universes"
 }
 

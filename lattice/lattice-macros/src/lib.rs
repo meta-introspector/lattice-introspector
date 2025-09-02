@@ -42,6 +42,9 @@ pub fn lattice_point_derive(input: TokenStream) -> TokenStream {
         lattice_types::LatticePointKind::PullRequest => quote! { lattice_types::LatticePointKind::PullRequest },
         lattice_types::LatticePointKind::GitHubActionRun => quote! { lattice_types::LatticePointKind::GitHubActionRun },
         lattice_types::LatticePointKind::GitDerivedAsset => quote! { lattice_types::LatticePointKind::GitDerivedAsset },
+        lattice_types::LatticePointKind::Transformation => quote! { lattice_types::LatticePointKind::Transformation },
+        lattice_types::LatticePointKind::CompilerTransformation => quote! { lattice_types::LatticePointKind::CompilerTransformation },
+        lattice_types::LatticePointKind::GodelianTruth => quote! { lattice_types::LatticePointKind::GodelianTruth },
     };
 
     let metadata_inserts = introspected_point.metadata.iter().map(|(k, v)| {

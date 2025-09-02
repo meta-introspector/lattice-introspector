@@ -6,3 +6,6 @@ pub mod markdown;
 pub mod model_types;
 pub mod git_related;
 pub mod user_intent;
+pub mod transformation;
+pub mod compiler_transformation;
+pub mod godelian_truth;

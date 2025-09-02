@@ -38,6 +38,9 @@ pub fn generate_binary_point_code(
             lattice_types::LatticePointKind::GitHubActionRun => quote! { lattice_types::LatticePointKind::GitHubActionRun },
             lattice_types::LatticePointKind::GitDerivedAsset => quote! { lattice_types::LatticePointKind::GitDerivedAsset },
             lattice_types::LatticePointKind::UserIntent => quote! { lattice_types::LatticePointKind::UserIntent },
+            lattice_types::LatticePointKind::Transformation => quote! { lattice_types::LatticePointKind::Transformation },
+            lattice_types::LatticePointKind::CompilerTransformation => quote! { lattice_types::LatticePointKind::CompilerTransformation },
+            lattice_types::LatticePointKind::GodelianTruth => quote! { lattice_types::LatticePointKind::GodelianTruth },
         };
         let binary_metadata_inserts = bp.metadata.iter().map(|(k, v)| {
             quote! { metadata.insert(#k.to_string(), #v.to_string()); }
