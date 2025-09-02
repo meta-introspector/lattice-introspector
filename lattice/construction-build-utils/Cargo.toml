@@ -10,3 +10,4 @@ proc-macro2 = "1.0"
 lattice-types = { path = "../lattice-types" }
 lattice-introspector = { path = "../lattice-introspector" }
 once_cell = "1.19.0"
+chrono = "0.4"

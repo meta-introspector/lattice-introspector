@@ -2,10 +2,31 @@ use std::{fs, path::Path, io::{Read, Write}};
 use syn::{Item, Ident};
 use quote::{quote, format_ident, TokenStreamExt};
 use proc_macro2::TokenStream;
+use std::collections::HashMap;
+use chrono::Utc;
 
 // Re-export necessary types from dependencies
 pub use lattice_types::{LatticePoint, LatticePointKind};
 pub use once_cell::sync::Lazy;
+
+/// Introspects a compiled binary and converts it into a LatticePoint.
+pub fn introspect_binary(binary_path: &Path) -> LatticePoint {
+    let path_str = binary_path.to_string_lossy().to_string();
+    let binary_name = binary_path.file_name().map_or("unknown".to_string(), |s| s.to_string_lossy().to_string());
+    let timestamp = Utc::now().to_rfc3339();
+
+    let mut metadata = HashMap::new();
+    metadata.insert("path".to_string(), path_str);
+    metadata.insert("name".to_string(), binary_name);
+    metadata.insert("timestamp".to_string(), timestamp);
+
+    LatticePoint {
+        id: format!("binary_{}", binary_name.replace(".", "_")),
+        kind: LatticePointKind::LatticeMeta, // Using LatticeMeta for build artifacts
+        metadata,
+        relationships: Vec::new(),
+    }
+}
 
 /// Manages the step count for the self-proving statement.
 /// Reads the current step from a file, increments it, and writes it back.
@@ -41,9 +62,121 @@ pub fn get_and_increment_step_count() -> u32 {
 pub fn generate_lattice_registration_code(
     src_dir: &Path,
     markdown_paths: &[&Path],
+    binary_point: Option<LatticePoint>,
+    predicted_execution_point: Option<LatticePoint>,
 ) -> String {
     let mut getter_function_definitions = Vec::new();
     let mut add_point_calls = Vec::new();
+
+    // Add binary point if provided
+    if let Some(bp) = binary_point {
+        let binary_id = bp.id;
+        let binary_kind = match bp.kind {
+            lattice_types::LatticePointKind::Struct => quote! { lattice_types::LatticePointKind::Struct },
+            lattice_types::LatticePointKind::Enum => quote! { lattice_types::LatticePointKind::Enum },
+            lattice_types::LatticePointKind::Function => quote! { lattice_types::LatticePointKind::Function },
+            lattice_types::LatticePointKind::MemoryRegion => quote! { lattice_types::LatticePointKind::MemoryRegion },
+            lattice_types::LatticePointKind::Instruction => quote! { lattice_types::LatticePointKind::Instruction },
+            lattice_types::LatticePointKind::CompileTimeEvent => quote! { lattice_types::LatticePointKind::CompileTimeEvent },
+            lattice_types::LatticePointKind::RunTimeEvent => quote! { lattice_types::LatticePointKind::RunTimeEvent },
+            lattice_types::LatticePointKind::TraceEvent => quote! { lattice_types::LatticePointKind::TraceEvent },
+            lattice_types::LatticePointKind::LatticeMeta => quote! { lattice_types::LatticePointKind::LatticeMeta },
+            lattice_types::LatticePointKind::MarkdownDocument => quote! { lattice_types::LatticePointKind::MarkdownDocument },
+            lattice_types::LatticePointKind::PredictedExecution => quote! { lattice_types::LatticePointKind::PredictedExecution },
+        };
+        let binary_metadata_inserts = bp.metadata.iter().map(|(k, v)| {
+            quote! { metadata.insert(#k.to_string(), #v.to_string()); }
+        });
+        let binary_relationships = bp.relationships.iter().map(|r| {
+            quote! { #r.to_string() }
+        });
+
+        let static_binary_name = format_ident!("{}_LATTICE_POINT", binary_id.to_uppercase());
+        let get_binary_fn_name = format_ident!("get_{}_lattice_point", binary_id.to_lowercase());
+
+        getter_function_definitions.push(quote! {
+            #[allow(dead_code)]
+            static #static_binary_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
+                use std::collections::HashMap;
+                use lattice_types::{LatticePoint, LatticePointKind};
+
+                let mut metadata = HashMap::new();
+                #(#binary_metadata_inserts)*
+
+                let relationships = vec![#(#binary_relationships),*];
+
+                lattice_types::LatticePoint {
+                    id: #binary_id.to_string(),
+                    kind: #binary_kind,
+                    metadata,
+                    relationships,
+                }
+            });
+
+            #[allow(dead_code)]
+            pub fn #get_binary_fn_name() -> &'static lattice_types::LatticePoint {
+                &#static_binary_name
+            }
+        });
+        add_point_calls.push(quote! {
+            lattice.add_point(#get_binary_fn_name().clone());
+        });
+    }
+
+    // Add predicted execution point if provided
+    if let Some(pep) = predicted_execution_point {
+        let pep_id = pep.id;
+        let pep_kind = match pep.kind {
+            lattice_types::LatticePointKind::Struct => quote! { lattice_types::LatticePointKind::Struct },
+            lattice_types::LatticePointKind::Enum => quote! { lattice_types::LatticePointKind::Enum },
+            lattice_types::LatticePointKind::Function => quote! { lattice_types::LatticePointKind::Function },
+            lattice_types::LatticePointKind::MemoryRegion => quote! { lattice_types::LatticePointKind::MemoryRegion },
+            lattice_types::LatticePointKind::Instruction => quote! { lattice_types::LatticePointKind::Instruction },
+            lattice_types::LatticePointKind::CompileTimeEvent => quote! { lattice_types::LatticePointKind::CompileTimeEvent },
+            lattice_types::LatticePointKind::RunTimeEvent => quote! { lattice_types::LatticePointKind::RunTimeEvent },
+            lattice_types::LatticePointKind::TraceEvent => quote! { lattice_types::LatticePointKind::TraceEvent },
+            lattice_types::LatticePointKind::LatticeMeta => quote! { lattice_types::LatticePointKind::LatticeMeta },
+            lattice_types::LatticePointKind::MarkdownDocument => quote! { lattice_types::LatticePointKind::MarkdownDocument },
+            lattice_types::LatticePointKind::PredictedExecution => quote! { lattice_types::LatticePointKind::PredictedExecution },
+        };
+        let pep_metadata_inserts = pep.metadata.iter().map(|(k, v)| {
+            quote! { metadata.insert(#k.to_string(), #v.to_string()); }
+        });
+        let pep_relationships = pep.relationships.iter().map(|r| {
+            quote! { #r.to_string() }
+        });
+
+        let static_pep_name = format_ident!("{}_LATTICE_POINT", pep_id.to_uppercase());
+        let get_pep_fn_name = format_ident!("get_{}_lattice_point", pep_id.to_lowercase());
+
+        getter_function_definitions.push(quote! {
+            #[allow(dead_code)]
+            static #static_pep_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
+                use std::collections::HashMap;
+                use lattice_types::{LatticePoint, LatticePointKind};
+
+                let mut metadata = HashMap::new();
+                #(#pep_metadata_inserts)*
+
+                let relationships = vec![#(#pep_relationships),*];
+
+                lattice_types::LatticePoint {
+                    id: #pep_id.to_string(),
+                    kind: #pep_kind,
+                    metadata,
+                    relationships,
+                }
+            });
+
+            #[allow(dead_code)]
+            pub fn #get_pep_fn_name() -> &'static lattice_types::LatticePoint {
+                &#static_pep_name
+            }
+        });
+        add_point_calls.push(quote! {
+            lattice.add_point(#get_pep_fn_name().clone());
+        });
+    }
 
     // Get and increment the step count
     let current_step = get_and_increment_step_count();

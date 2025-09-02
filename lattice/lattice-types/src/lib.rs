@@ -1,7 +1,8 @@
 use std::collections::HashMap;
+use serde::{Serialize, Deserialize};
 
 /// Represents the kind of entity a LatticePoint describes.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum LatticePointKind {
     Struct,
     Enum,
@@ -12,14 +13,17 @@ pub enum LatticePointKind {
     RunTimeEvent,
     TraceEvent,
     LatticeMeta,
-    MarkdownDocument, // Add this line
+    MarkdownDocument,
+    PredictedExecution,
+    ActualExecution,
+    LogEvent, // Added for structured log events
     // Add more kinds as needed for the "universe of universes"
 }
 
 /// Represents a single point in the univalent lattice.
 /// This point can describe a Rust struct, a function, a memory region,
 /// a compile-time event, a runtime event, or even the lattice itself.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LatticePoint {
     pub id: String, // Unique identifier for this point
     pub kind: LatticePointKind,
