@@ -4,7 +4,7 @@ use proc_macro2::TokenStream;
 use std::collections::HashMap;
 
 use crate::LatticePoint;
-use lattice_introspector::introspect_markdown_document;
+use lattice_introspector::markdown_introspector::introspect_markdown_document;
 
 pub fn generate_markdown_document_code(
     markdown_paths: &[&Path],

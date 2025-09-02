@@ -1,63 +1,16 @@
-use std::{fs, path::Path, io::{Read, Write}};
+use std::{path::Path};
 use syn::{Item, Ident};
 use quote::{quote, format_ident, TokenStreamExt};
 use proc_macro2::TokenStream;
-use std::collections::HashMap;
-use chrono::Utc;
 
 // Re-export necessary types from dependencies
 pub use lattice_types::{LatticePoint, LatticePointKind};
 pub use once_cell::sync::Lazy;
 
-// Declare the new generators module
+// Declare the new modules
 pub mod generators;
-
-/// Introspects a compiled binary and converts it into a LatticePoint.
-pub fn introspect_binary(binary_path: &Path) -> LatticePoint {
-    let path_str = binary_path.to_string_lossy().to_string();
-    let binary_name = binary_path.file_name().map_or("unknown".to_string(), |s| s.to_string_lossy().to_string());
-    let timestamp = Utc::now().to_rfc3339();
-
-    let mut metadata = HashMap::new();
-    metadata.insert("path".to_string(), path_str);
-    metadata.insert("name".to_string(), binary_name);
-    metadata.insert("timestamp".to_string(), timestamp);
-
-    LatticePoint {
-        id: format!("binary_{}", binary_name.replace(".", "_")),
-        kind: LatticePointKind::LatticeMeta, // Using LatticeMeta for build artifacts
-        metadata,
-        relationships: Vec::new(),
-    }
-}
-
-/// Manages the step count for the self-proving statement.
-/// Reads the current step from a file, increments it, and writes it back.
-/// Returns the incremented step count.
-pub fn get_and_increment_step_count() -> u32 {
-    let project_root = Path::new("/data/data/com.termux/files/home/storage/github/rustc/"); // Hardcoded project root
-    let gemini_dir = project_root.join(".gemini");
-    let step_file_path = gemini_dir.join("self_proving_step.txt");
-
-    // Ensure .gemini directory exists
-    fs::create_dir_all(&gemini_dir).unwrap();
-
-    let mut current_step = 0;
-
-    if step_file_path.exists() {
-        let mut file = fs::File::open(&step_file_path).unwrap();
-        let mut content = String::new();
-        file.read_to_string(&mut content).unwrap();
-        current_step = content.trim().parse().unwrap_or(0);
-    }
-
-    current_step += 1;
-
-    let mut file = fs::File::create(&step_file_path).unwrap();
-    file.write_all(current_step.to_string().as_bytes()).unwrap();
-
-    current_step
-}
+pub mod introspectors;
+pub mod utils;
 
 /// Generates the Rust code for registering all lattice points.
 /// This includes static definitions for markdown documents and a function
@@ -94,24 +47,12 @@ pub fn generate_lattice_registration_code(
     generated_code.to_string()
 }
 
-// Helper function to determine the module prefix for a given Ident
-pub fn get_module_prefix_for_ident(ident: &Ident) -> TokenStream {
-    match ident.to_string().as_str() {
-        "Repository" | "GitSubmodule" | "CargoCrate" | "RustFile" | "FfiBinding" | "MarkdownDocument" | "SelfProvingStatement" | "GeminiAgent" | "OllamaAgent" | "GGUFModel" | "HuggingFaceDataset" | "GitHubRepository" | "GitHubAccount" | "GitCommit" | "PullRequest" | "GitHubActionRun" | "GitDerivedAsset" | "UserIntent" | "Transformation" | "CompilerTransformation" | "GodelianTruth" => quote! { crate::model:: },
-        "RustcInvocation" => quote! { crate::compilation:: },
-        "CompilerMemoryLocation" | "CompilerInternalRepresentation" => quote! { crate::compiler_ir:: },
-        "Instruction" | "MemoryRegion" | "MemoryAccess" | "AccessType" => quote! { crate::execution:: },
-        "Lattice" => quote! { crate::lattice:: },
-        "Registers" | "MemoryVector" | "VmExecutionSnapshot" => quote! { crate::vm_context:: },
-        _ => quote! { crate:: }, // Fallback, though all should be covered
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use quote::quote;
     use syn::Ident;
+    use crate::utils::get_module_prefix_for_ident; // Import from the new location
 
     #[test]
     fn test_get_module_prefix_for_ident() {

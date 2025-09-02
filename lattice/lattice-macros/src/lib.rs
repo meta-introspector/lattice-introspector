@@ -6,7 +6,7 @@ use quote::quote;
 use quote::format_ident;
 
 // Import the introspection function from lattice-introspector
-use lattice_introspector::introspect_item;
+use lattice_introspector::rust_introspector::introspect_item;
 // Removed LatticePoint and LatticePointKind import from here, as they are used in generated code
 // use lattice_types::{LatticePoint, LatticePointKind};
 

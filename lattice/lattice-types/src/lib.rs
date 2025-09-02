@@ -31,6 +31,8 @@ pub enum LatticePointKind {
     Transformation,     // Added for representing transformations/matrix operations
     CompilerTransformation, // Added for representing compiler transformations
     GodelianTruth,          // Added for representing unprovable truths/foundational axioms
+    AcademicPaper,          // Added for academic papers and publications
+    AcademicAuthor,         // Added for academic authors and researchers
     // Add more kinds as needed for the "universe of universes"
 }
 
