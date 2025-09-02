@@ -10,13 +10,14 @@ pub fn introspect_binary(binary_path: &Path) -> LatticePoint {
 
     let mut metadata = HashMap::new();
     metadata.insert("path".to_string(), path_str);
-    metadata.insert("name".to_string(), binary_name);
+    metadata.insert("name".to_string(), binary_name.clone());
     metadata.insert("timestamp".to_string(), timestamp);
 
     LatticePoint {
-        id: format!("binary_{}", binary_name.replace(".", "_")),
-        kind: LatticePointKind::LatticeMeta, // Using LatticeMeta for build artifacts
-        metadata,
-        relationships: Vec::new(),
-    }
+    id: format!("binary_{}", binary_name.replace(".", "_").replace("-", "_")),
+    kind: LatticePointKind::LatticeMeta, // Using LatticeMeta for build artifacts
+    metadata,
+    relationships: Vec::new(),
+    hero_status: None,
+}
 }

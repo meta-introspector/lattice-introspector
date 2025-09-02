@@ -32,6 +32,7 @@ pub fn generate_transformation_code(
             user_intent_id.clone(), // Input: User Intent (the 'tweaker')
             poem_point_id.clone(), // Output: Conceptual Poem Point
         ],
+        hero_status: None,
     };
     let static_tx_name = format_ident!("{}_LATTICE_POINT", transformation_id.to_uppercase());
     let get_tx_fn_name = format_ident!("get_{}_lattice_point", transformation_id.to_lowercase());
@@ -53,6 +54,7 @@ pub fn generate_transformation_code(
                     #user_intent_id.to_string(),
                     #poem_point_id.to_string(),
                 ],
+                hero_status: None,
             }
         });
         #[allow(dead_code)]

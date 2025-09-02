@@ -34,7 +34,7 @@ pub fn get_and_increment_step_count() -> u32 {
 // Helper function to determine the module prefix for a given Ident
 pub fn get_module_prefix_for_ident(ident: &Ident) -> TokenStream {
     match ident.to_string().as_str() {
-        "Repository" | "GitSubmodule" | "CargoCrate" | "RustFile" | "FfiBinding" | "MarkdownDocument" | "SelfProvingStatement" | "GeminiAgent" | "OllamaAgent" | "GGUFModel" | "HuggingFaceDataset" | "GitHubRepository" | "GitHubAccount" | "GitCommit" | "PullRequest" | "GitHubActionRun" | "GitDerivedAsset" | "UserIntent" | "Transformation" | "CompilerTransformation" | "GodelianTruth" => quote! { crate::model:: },
+        "Repository" | "GitSubmodule" | "CargoCrate" | "RustFile" | "FfiBinding" | "MarkdownDocument" | "SelfProvingStatement" | "GeminiAgent" | "OllamaAgent" | "GGUFModel" | "HuggingFaceDataset" | "GitHubRepository" | "GitHubAccount" | "GitCommit" | "PullRequest" | "GitHubActionRun" | "GitDerivedAsset" | "UserIntent" | "Transformation" | "CompilerTransformation" | "GodelianTruth" => quote! { crate::model_types:: },
         "RustcInvocation" => quote! { crate::compilation:: },
         "CompilerMemoryLocation" | "CompilerInternalRepresentation" => quote! { crate::compiler_ir:: },
         "Instruction" | "MemoryRegion" | "MemoryAccess" | "AccessType" => quote! { crate::execution:: },

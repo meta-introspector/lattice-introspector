@@ -27,6 +27,7 @@ pub fn generate_godelian_truth_code(
             "self_proving_statement".to_string(),
             "user_intent_project_vibe".to_string(),
         ],
+        hero_status: None,
     };
     let static_gt_name = format_ident!("{}_LATTICE_POINT", godelian_truth_id.to_uppercase());
     let get_gt_fn_name = format_ident!("get_{}_lattice_point", godelian_truth_id.to_lowercase());
@@ -49,6 +50,7 @@ pub fn generate_godelian_truth_code(
                     "self_proving_statement".to_string(),
                     "user_intent_project_vibe".to_string(),
                 ],
+                hero_status: None,
             }
         });
         #[allow(dead_code)]

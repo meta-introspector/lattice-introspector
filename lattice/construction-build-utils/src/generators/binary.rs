@@ -41,6 +41,8 @@ pub fn generate_binary_point_code(
             lattice_types::LatticePointKind::Transformation => quote! { lattice_types::LatticePointKind::Transformation },
             lattice_types::LatticePointKind::CompilerTransformation => quote! { lattice_types::LatticePointKind::CompilerTransformation },
             lattice_types::LatticePointKind::GodelianTruth => quote! { lattice_types::LatticePointKind::GodelianTruth },
+            lattice_types::LatticePointKind::AcademicPaper => quote! { lattice_types::LatticePointKind::AcademicPaper },
+            lattice_types::LatticePointKind::AcademicAuthor => quote! { lattice_types::LatticePointKind::AcademicAuthor },
         };
         let binary_metadata_inserts = bp.metadata.iter().map(|(k, v)| {
             quote! { metadata.insert(#k.to_string(), #v.to_string()); }
@@ -68,6 +70,7 @@ pub fn generate_binary_point_code(
                     kind: #binary_kind,
                     metadata,
                     relationships,
+                    hero_status: None,
                 }
             });
 

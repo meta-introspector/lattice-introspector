@@ -12,7 +12,7 @@ pub fn generate_git_related_points_code(
 ) {
     // Add a GitDerivedAsset point for the project's root Git repository
     let project_git_repo_url = "https://github.com/rust-lang/rust".to_string(); // Example URL
-    let git_derived_asset_id = format!("git_derived_asset_{}", project_git_repo_url.replace(".", "_").replace("/", "_").replace(":", "_"));
+    let git_derived_asset_id = format!("git_derived_asset_{}", project_git_repo_url.replace(".", "_").replace("/", "_").replace(":", "_").replace("-", "_"));
     let git_derived_asset_point = LatticePoint {
         id: git_derived_asset_id.clone(),
         kind: lattice_types::LatticePointKind::GitDerivedAsset,
@@ -24,6 +24,7 @@ pub fn generate_git_related_points_code(
             map
         },
         relationships: Vec::new(),
+        hero_status: None,
     };
     let static_gda_name = format_ident!("{}_LATTICE_POINT", git_derived_asset_id.to_uppercase());
     let get_gda_fn_name = format_ident!("get_{}_lattice_point", git_derived_asset_id.to_lowercase());
@@ -41,6 +42,7 @@ pub fn generate_git_related_points_code(
                 kind: lattice_types::LatticePointKind::GitDerivedAsset,
                 metadata,
                 relationships: Vec::new(),
+                hero_status: None,
             }
         });
         #[allow(dead_code)]
@@ -70,6 +72,7 @@ pub fn generate_git_related_points_code(
             map
         },
         relationships: vec![git_derived_asset_id.clone()], // Relate to the GitDerivedAsset
+        hero_status: None,
     };
     let static_ghr_name = format_ident!("{}_LATTICE_POINT", project_repo_id.to_uppercase());
     let get_ghr_fn_name = format_ident!("get_{}_lattice_point", project_repo_id.to_lowercase());
@@ -92,6 +95,7 @@ pub fn generate_git_related_points_code(
                 kind: lattice_types::LatticePointKind::GitHubRepository,
                 metadata,
                 relationships: vec![#git_derived_asset_id.to_string()],
+                hero_status: None,
             }
         });
         #[allow(dead_code)]

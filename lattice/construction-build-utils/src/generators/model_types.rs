@@ -3,7 +3,7 @@ use syn::{Item, Ident};
 use quote::{quote, format_ident};
 use proc_macro2::TokenStream;
 
-use crate::get_module_prefix_for_ident;
+use crate::utils::get_module_prefix_for_ident;
 
 pub fn generate_model_types_code(
     getter_function_definitions: &mut Vec<TokenStream>,

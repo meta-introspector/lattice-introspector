@@ -32,6 +32,7 @@ pub fn generate_compiler_transformation_code(
             source_code_point_id.clone(), // Input: Conceptual Source Code Point
             binary_point_id.clone(),      // Output: Binary Point
         ],
+        hero_status: None,
     };
     let static_ct_name = format_ident!("{}_LATTICE_POINT", transformation_id.to_uppercase());
     let get_ct_fn_name = format_ident!("get_{}_lattice_point", transformation_id.to_lowercase());
@@ -54,6 +55,7 @@ pub fn generate_compiler_transformation_code(
                     #source_code_point_id.to_string(),
                     #binary_point_id.to_string(),
                 ],
+                hero_status: None,
             }
         });
         #[allow(dead_code)]

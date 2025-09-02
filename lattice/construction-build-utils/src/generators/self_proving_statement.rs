@@ -5,7 +5,7 @@ use std::collections::HashMap;
 use chrono::Utc;
 
 use crate::LatticePoint;
-use crate::get_and_increment_step_count;
+use crate::utils::get_and_increment_step_count;
 
 pub fn generate_self_proving_statement_code(
     getter_function_definitions: &mut Vec<TokenStream>,
@@ -38,6 +38,7 @@ pub fn generate_self_proving_statement_code(
                 kind: lattice_types::LatticePointKind::Struct, // Assuming it's a struct
                 metadata,
                 relationships: Vec::new(),
+                hero_status: None,
             }
         });
 
@@ -47,7 +48,7 @@ pub fn generate_self_proving_statement_code(
         }
     });
     add_point_calls.push(quote! {
-        lattice.add_point(crate::model::get_selfprovingstatement_lattice_point().clone());
+        lattice.add_point(crate::model_types::self_proving_statement::get_selfprovingstatement_lattice_point().clone());
     });
 
     // --- Update PLAN.md with Self-Proving Statement Status ---

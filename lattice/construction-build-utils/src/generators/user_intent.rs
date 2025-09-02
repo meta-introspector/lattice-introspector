@@ -27,6 +27,7 @@ pub fn generate_user_intent_code(
             "self_proving_statement".to_string(), // Relate to the self-proving statement
             "gemini_agent_v2_5_flash".to_string(), // Relate to Gemini 2.5 Flash
         ],
+        hero_status: None,
     };
     let static_ui_name = format_ident!("{}_LATTICE_POINT", user_intent_id.to_uppercase());
     let get_ui_fn_name = format_ident!("get_{}_lattice_point", user_intent_id.to_lowercase());
@@ -48,6 +49,7 @@ pub fn generate_user_intent_code(
                     "self_proving_statement".to_string(),
                     "gemini_agent_v2_5_flash".to_string(),
                 ],
+                hero_status: None,
             }
         });
         #[allow(dead_code)]

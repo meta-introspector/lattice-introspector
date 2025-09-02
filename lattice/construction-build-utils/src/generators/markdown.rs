@@ -49,6 +49,7 @@ pub fn generate_markdown_document_code(
                         kind: #md_kind,
                         metadata,
                         relationships,
+                        hero_status: None,
                     }
                 });
 

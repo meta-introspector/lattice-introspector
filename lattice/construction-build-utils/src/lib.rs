@@ -38,6 +38,11 @@ pub fn generate_lattice_registration_code(
     generators::meta_attributes::generate_meta_attributes_code(&mut getter_function_definitions, &mut add_point_calls, Path::new("/data/data/com.termux/files/home/storage/github/rustc/crates/introspector/LATTICE_POEM_MAPPING.md")); // Add this line
 
     let generated_code = quote! {
+        use std::collections::HashMap; // Ensure HashMap is available
+        use lattice_types::{LatticePoint, LatticePointKind}; // Ensure LatticePoint types are available
+        use chrono::Utc; // Ensure Utc is available for timestamps
+        use serde::{Serialize, Deserialize}; // Ensure serde is available for meta_attributes
+
         #(#getter_function_definitions)*
 
         pub fn register_all_lattice_points(lattice: &mut crate::lattice::Lattice) {
