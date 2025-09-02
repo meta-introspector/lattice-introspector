@@ -82,6 +82,7 @@ pub fn introspect_item(input: &DeriveInput) -> LatticePoint {
         kind,
         metadata,
         relationships,
+        hero_status: None,
     }
 }
 
