@@ -45,4 +45,5 @@ pub struct LatticePoint {
     pub kind: LatticePointKind,
     pub metadata: HashMap<String, String>, // Flexible storage for point-specific data
     pub relationships: Vec<String>, // IDs of other LatticePoints this point is related to
+    pub hero_status: Option<String>, // Optional field to indicate heroification status/stage
 }

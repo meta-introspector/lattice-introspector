@@ -9,3 +9,4 @@ pub mod user_intent;
 pub mod transformation;
 pub mod compiler_transformation;
 pub mod godelian_truth;
+pub mod meta_attributes; // Add this line
