@@ -40,3 +40,7 @@
 	path = vendor/hugging-face-dataset-validator-rust
 	url = https://github.com/meta-introspector/hugging-face-dataset-validator-rust
 	branch = main
+[submodule "vendor/ai-agent-terraform"]
+	path = vendor/ai-agent-terraform
+	url = https://github.com/jmikedupont2/ai-agent-terraform/
+	branch = main
