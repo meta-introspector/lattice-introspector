@@ -1,3 +1,4 @@
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/meta-introspector/lattice-introspector)
 # The Univalent Lattice Project
 
 This repository houses the "Univalent Lattice" project, an ambitious computational framework designed to model "the entire universe of universes" by blurring the lines between code, data, and emergent meaning. It aims for extreme modularity, computational self-awareness, and verifiable truth.
