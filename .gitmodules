@@ -2,3 +2,6 @@
 	path = vendor/ragit
 	url = https://github.com/meta-introspector/ragit.git
 	branch = feature/numerical-directory-model
+[submodule "vendor/scirs"]
+	path = vendor/scirs
+	url = https://github.com/cool-japan/scirs.git
