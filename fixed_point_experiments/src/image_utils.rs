@@ -89,6 +89,19 @@ pub fn generate_food_grid_from_image(img: &RgbImage, config: &ImageConfig) -> Gr
     grid
 }
 
+// Generates a food grid from an RgbImage based on pixel intensity, inverting the intensity
+pub fn generate_inverted_food_grid_from_image(img: &RgbImage, config: &ImageConfig) -> Grid {
+    let mut grid = vec![vec![0.0; config.grid_height]; config.grid_width];
+    for x in 0..config.grid_width {
+        for y in 0..config.grid_height {
+            let pixel = img.get_pixel(x as u32, y as u32);
+            let intensity = (pixel[0] as f32 + pixel[1] as f32 + pixel[2] as f32) / (3.0 * 255.0); // Normalize to 0.0-1.0
+            grid[x][y] = 1.0 - intensity; // Invert intensity: darker pixels = higher food
+        }
+    }
+    grid
+}
+
 
 
 // Converts a Grid (slime concentration) to an ASCII art string

@@ -54,7 +54,7 @@ impl Default for AppConfig {
             visualization_config: VisualizationConfig {
                 screen_width: 576,
                 screen_height: 1024,
-                debug_output_dir: "debug_frames".to_string(),
+                debug_output_dir: "data".to_string(),
                 ffmpeg_fps: 10,
             },
             zos_primes: vec![0, 1, 2, 3, 5, 7, 11, 13, 17, 19, 23],
