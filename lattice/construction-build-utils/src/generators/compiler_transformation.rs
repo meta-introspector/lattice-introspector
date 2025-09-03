@@ -2,6 +2,7 @@ use quote::{quote, format_ident};
 use proc_macro2::TokenStream;
 use std::collections::HashMap;
 use chrono::Utc;
+use lattice_types::LatticePoint;
 
 pub fn generate_compiler_transformation_code(
     getter_function_definitions: &mut Vec<TokenStream>,

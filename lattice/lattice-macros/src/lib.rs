@@ -48,6 +48,10 @@ pub fn lattice_point_derive(input: TokenStream) -> TokenStream {
         lattice_types::LatticePointKind::GodelianTruth => quote! { lattice_types::LatticePointKind::GodelianTruth },
         lattice_types::LatticePointKind::AcademicPaper => quote! { lattice_types::LatticePointKind::AcademicPaper },
         lattice_types::LatticePointKind::AcademicAuthor => quote! { lattice_types::LatticePointKind::AcademicAuthor },
+        lattice_types::LatticePointKind::ZosPoemElement => quote! { lattice_types::LatticePointKind::ZosPoemElement },
+        lattice_types::LatticePointKind::ExecutionTrace => quote! { lattice_types::LatticePointKind::ExecutionTrace },
+        lattice_types::LatticePointKind::PrimeResonance => quote! { lattice_types::LatticePointKind::PrimeResonance },
+        lattice_types::LatticePointKind::WordResonance => quote! { lattice_types::LatticePointKind::WordResonance },
     };
 
     let metadata_inserts = introspected_point.metadata.iter().map(|(k, v)| {

@@ -42,7 +42,7 @@ pub fn generate_model_types_code(context: &mut GenerationContext) {
                         let get_fn_name = format_ident!("get_{}_lattice_point", ident.to_string().to_lowercase());
                         let module_prefix = get_module_prefix_for_ident(ident);
                         context.add_point_calls.push(quote! {
-                            lattice.add_point(#module_prefix #get_fn_name().clone());
+                            lattice.add_point(#get_fn_name().clone());
                         });
                     }
                 }

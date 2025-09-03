@@ -1,0 +1,14 @@
+{
+  "id": "trace_event_75f95951-2461-4431-ab12-1d1b8775f6c0",
+  "kind": "TraceEvent",
+  "metadata": {
+    "level": "ERROR",
+    "target": "lattice_macros_test",
+    "timestamp": "2025-09-03T04:42:11.992448616+00:00",
+    "message": "This is an error message from the test application.",
+    "file": "crates/introspector/lattice/lattice-macros-test/src/main.rs",
+    "line": "73"
+  },
+  "relationships": [],
+  "hero_status": null
+}

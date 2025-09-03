@@ -1,0 +1,13 @@
+{
+  "id": "execution_trace_1756879877640463088",
+  "kind": "ExecutionTrace",
+  "metadata": {
+    "duration_ms": "102",
+    "status": "completed",
+    "command": "/data/data/com.termux/files/home/storage/github/rustc/target/debug/lattice-macros-test"
+  },
+  "relationships": [
+    "actual_execution_1756879877538079181"
+  ],
+  "hero_status": null
+}

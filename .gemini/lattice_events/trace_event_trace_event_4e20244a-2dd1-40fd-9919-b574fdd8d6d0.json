@@ -1,0 +1,14 @@
+{
+  "id": "trace_event_4e20244a-2dd1-40fd-9919-b574fdd8d6d0",
+  "kind": "TraceEvent",
+  "metadata": {
+    "message": "MyTestStruct created with field1: 42 and field2: hello.",
+    "file": "crates/introspector/lattice/lattice-macros-test/src/main.rs",
+    "line": "68",
+    "timestamp": "2025-09-03T04:12:40.483692782+00:00",
+    "level": "INFO",
+    "target": "lattice_macros_test"
+  },
+  "relationships": [],
+  "hero_status": null
+}

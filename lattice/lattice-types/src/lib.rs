@@ -33,6 +33,10 @@ pub enum LatticePointKind {
     GodelianTruth,          // Added for representing unprovable truths/foundational axioms
     AcademicPaper,          // Added for academic papers and publications
     AcademicAuthor,         // Added for academic authors and researchers
+    ZosPoemElement,         // Added for elements of the Zos poem
+    ExecutionTrace,         // Added for tracing execution time and status
+    PrimeResonance,         // Added for representing resonance with Zos primes
+    WordResonance,          // Added for representing resonance of individual words
     // Add more kinds as needed for the "universe of universes"
 }
 

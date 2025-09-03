@@ -10,6 +10,7 @@ pub use once_cell::sync::Lazy;
 pub mod generators;
 pub mod introspectors;
 pub mod utils;
+pub mod zos_mapper;
 
 pub struct GenerationContext<'a> {
     pub getter_function_definitions: &'a mut Vec<TokenStream>,
@@ -20,6 +21,7 @@ pub struct GenerationContext<'a> {
     pub predicted_execution_point: &'a Option<LatticePoint>,
     pub lattice_poem_mapping_path: &'a Path,
     pub zos_poem_resonance_map_path: &'a Path,
+    pub project_root: &'a Path,
 }
 
 /// Generates the Rust code for registering all lattice points.
@@ -30,6 +32,7 @@ pub fn generate_lattice_registration_code(
     markdown_paths: &[&Path],
     binary_point: Option<LatticePoint>,
     predicted_execution_point: Option<LatticePoint>,
+    project_root: &Path,
 ) -> String {
     let mut getter_function_definitions = Vec::new();
     let mut add_point_calls = Vec::new();
@@ -45,6 +48,7 @@ pub fn generate_lattice_registration_code(
         predicted_execution_point: &predicted_execution_point,
         lattice_poem_mapping_path,
         zos_poem_resonance_map_path,
+        project_root,
     };
 
     // Call generator functions
@@ -56,14 +60,19 @@ pub fn generate_lattice_registration_code(
     generators::git_related::generate_git_related_points_code(&mut context);
     generators::user_intent::generate_user_intent_code(&mut context);
     generators::transformation::generate_transformation_code(&mut context);
-    generators::compiler_transformation::generate_compiler_transformation_code(&mut context);
+    generators::compiler_transformation::generate_compiler_transformation_code(
+        context.getter_function_definitions,
+        context.add_point_calls,
+    );
     generators::godelian_truth::generate_godelian_truth_code(&mut context);
     generators::meta_attributes::generate_meta_attributes_code(&mut context);
     generators::zos_poems::generate_zos_poem_points_code(&mut context);
+    zos_mapper::generate_prime_resonance_points_code(&mut context);
+    println!("DEBUG: add_point_calls after zos_poems: {}", add_point_calls.len());
 
     let generated_code = quote! {
         use std::collections::HashMap; // Ensure HashMap is available
-        use lattice_types::{LatticePoint, LatticePointKind, LatticeAccess}; // Ensure LatticePoint types and LatticeAccess are available
+        use lattice_types::{LatticePoint, LatticePointKind}; // Ensure LatticePoint types are available
         use chrono::Utc; // Ensure Utc is available for timestamps
         use serde::{Serialize, Deserialize}; // Ensure serde is available for meta_attributes
 

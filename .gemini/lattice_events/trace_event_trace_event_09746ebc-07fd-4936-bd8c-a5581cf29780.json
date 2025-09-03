@@ -1,0 +1,14 @@
+{
+  "id": "trace_event_09746ebc-07fd-4936-bd8c-a5581cf29780",
+  "kind": "TraceEvent",
+  "metadata": {
+    "timestamp": "2025-09-03T06:11:56.979176510+00:00",
+    "target": "lattice_macros_test",
+    "file": "crates/introspector/lattice/lattice-macros-test/src/main.rs",
+    "line": "66",
+    "message": "Lattice macros test application started.",
+    "level": "INFO"
+  },
+  "relationships": [],
+  "hero_status": null
+}

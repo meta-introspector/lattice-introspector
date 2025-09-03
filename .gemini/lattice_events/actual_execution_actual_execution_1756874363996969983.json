@@ -1,0 +1,13 @@
+{
+  "id": "actual_execution_1756874363996969983",
+  "kind": "ActualExecution",
+  "metadata": {
+    "timestamp": "2025-09-03T04:39:23.996870139+00:00",
+    "command_args": "/data/data/com.termux/files/home/storage/github/rustc/target/debug/lattice-macros-test",
+    "current_dir": "/data/data/com.termux/files/home/storage/github/rustc/crates/introspector"
+  },
+  "relationships": [
+    "predicted_lattice_macros_test_execution"
+  ],
+  "hero_status": null
+}

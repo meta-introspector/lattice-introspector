@@ -1,0 +1,14 @@
+{
+  "id": "trace_event_f8f99a22-9174-443c-84dc-b0b8f4c9e18f",
+  "kind": "TraceEvent",
+  "metadata": {
+    "timestamp": "2025-09-03T04:38:24.430077922+00:00",
+    "level": "WARN",
+    "target": "lattice_macros_test",
+    "message": "This is a warning message from the test application.",
+    "line": "72",
+    "file": "crates/introspector/lattice/lattice-macros-test/src/main.rs"
+  },
+  "relationships": [],
+  "hero_status": null
+}

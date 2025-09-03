@@ -1,0 +1,14 @@
+{
+  "id": "trace_event_851aaba9-df3a-4605-be82-1e9f2bb843c3",
+  "kind": "TraceEvent",
+  "metadata": {
+    "file": "crates/introspector/lattice/lattice-macros-test/src/main.rs",
+    "timestamp": "2025-09-03T04:39:41.931343361+00:00",
+    "message": "Inside my_test_span.",
+    "level": "INFO",
+    "target": "lattice_macros_test",
+    "line": "77"
+  },
+  "relationships": [],
+  "hero_status": null
+}

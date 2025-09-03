@@ -5,8 +5,11 @@ use std::fs;
 use std::io::Write;
 use std::collections::HashMap;
 use std::env;
+use std::time::Instant; // Import Instant for timing
 mod lattice_logger;
 use tracing::{info, warn, error, span, Level};
+use construction;
+use construction::lattice::get_global_lattice; // Import the function to get the global lattice
 
 #[derive(LatticePointDerive)] // Apply the derive macro
 struct MyTestStruct {
@@ -25,6 +28,8 @@ enum MyTestEnum {
 struct MyUnitTestStruct;
 
 fn main() {
+    let start_time = Instant::now(); // Record start time
+
     // --- Actual Execution Lattice Point --- 
     let mut metadata = HashMap::new();
     metadata.insert("timestamp".to_string(), Utc::now().to_rfc3339());
@@ -82,4 +87,53 @@ fn main() {
     std::thread::sleep(std::time::Duration::from_millis(100));
 
     info!("Application finished.");
+
+    // Call the poem conversion function
+    construction::run_poem_conversion();
+
+    // --- Debug: Print all LatticePoints in Global Lattice ---
+    let global_lattice = get_global_lattice();
+    println!("\n--- All LatticePoints in Global Lattice ---");
+    for (id, point) in &global_lattice.points {
+        println!("ID: {}, Kind: {:?}", id, point.kind);
+    }
+    println!("-------------------------------------------\n");
+
+    // --- Log ZosPoemElement LatticePoints ---
+    let global_lattice = get_global_lattice();
+    for (id, point) in &global_lattice.points {
+        if point.kind == LatticePointKind::ZosPoemElement {
+            let zos_poem_file_name = format!("zos_poem_element_{}.json", id);
+            let zos_poem_file_path = lattice_events_dir.join(zos_poem_file_name);
+            let zos_poem_json_output = serde_json::to_string_pretty(point).expect("Failed to serialize ZosPoemElement LatticePoint");
+            let mut zos_poem_file = fs::File::create(&zos_poem_file_path).expect("Failed to create ZosPoemElement log file");
+            zos_poem_file.write_all(zos_poem_json_output.as_bytes()).expect("Failed to write ZosPoemElement log");
+            println!("ZosPoemElement lattice point logged to: {}", zos_poem_file_path.display());
+        }
+    }
+
+    let end_time = Instant::now(); // Record end time
+    let duration = end_time.duration_since(start_time); // Calculate duration
+
+    // Create ExecutionTrace LatticePoint
+    let mut execution_trace_metadata = HashMap::new();
+    execution_trace_metadata.insert("duration_ms".to_string(), duration.as_millis().to_string());
+    execution_trace_metadata.insert("command".to_string(), env::args().collect::<Vec<String>>().join(" "));
+    execution_trace_metadata.insert("status".to_string(), "completed".to_string()); // Assuming completion for now
+
+    let execution_trace_point = LatticePoint {
+        id: format!("execution_trace_{}", Utc::now().timestamp_nanos_opt().unwrap_or_default()),
+        kind: LatticePointKind::ExecutionTrace,
+        metadata: execution_trace_metadata,
+        relationships: vec![actual_execution_point.id.clone()], // Relate to the actual execution point
+        hero_status: None,
+    };
+
+    // Log ExecutionTrace LatticePoint to file
+    let execution_trace_file_name = format!("execution_trace_{}.json", execution_trace_point.id);
+    let execution_trace_file_path = lattice_events_dir.join(execution_trace_file_name);
+    let execution_trace_json_output = serde_json::to_string_pretty(&execution_trace_point).expect("Failed to serialize ExecutionTrace LatticePoint");
+    let mut execution_trace_file = fs::File::create(&execution_trace_file_path).expect("Failed to create ExecutionTrace log file");
+    execution_trace_file.write_all(execution_trace_json_output.as_bytes()).expect("Failed to write ExecutionTrace log");
+    println!("ExecutionTrace lattice point logged to: {}", execution_trace_file_path.display());
 }

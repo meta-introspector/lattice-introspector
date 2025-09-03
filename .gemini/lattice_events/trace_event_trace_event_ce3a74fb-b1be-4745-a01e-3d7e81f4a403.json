@@ -1,0 +1,14 @@
+{
+  "id": "trace_event_ce3a74fb-b1be-4745-a01e-3d7e81f4a403",
+  "kind": "TraceEvent",
+  "metadata": {
+    "target": "lattice_macros_test",
+    "line": "86",
+    "level": "INFO",
+    "timestamp": "2025-09-03T04:38:58.937000200+00:00",
+    "message": "Application finished.",
+    "file": "crates/introspector/lattice/lattice-macros-test/src/main.rs"
+  },
+  "relationships": [],
+  "hero_status": null
+}

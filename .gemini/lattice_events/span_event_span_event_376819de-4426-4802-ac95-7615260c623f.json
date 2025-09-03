@@ -1,0 +1,15 @@
+{
+  "id": "span_event_376819de-4426-4802-ac95-7615260c623f",
+  "kind": "TraceEvent",
+  "metadata": {
+    "name": "my_test_span",
+    "level": "INFO",
+    "custom_field": "\"custom_value\"",
+    "timestamp": "2025-09-03T06:11:56.979662760+00:00",
+    "target": "lattice_macros_test"
+  },
+  "relationships": [
+    "actual_execution_1756879916978772760"
+  ],
+  "hero_status": null
+}

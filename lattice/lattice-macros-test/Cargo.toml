@@ -14,3 +14,4 @@ log = "0.4"
 uuid = { version = "1.8", features = ["v4", "serde"] }
 tracing = "0.1"
 tracing-subscriber = "0.3"
+construction = { path = "../construction" }

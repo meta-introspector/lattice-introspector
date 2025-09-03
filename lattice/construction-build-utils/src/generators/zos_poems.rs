@@ -21,7 +21,7 @@ pub fn generate_zos_poem_points_code(context: &mut GenerationContext) {
     for (i, prime) in zos_primes.iter().enumerate() {
         let prime_id = format!("zos_prime_{}", prime);
         let archetype = zos_archetypes[i];
-        let getter_name = format_ident!("get_zos_prime_{}_definition", prime);
+        let getter_name = format_ident!("get_zos_prime_{}_definition", *prime as u32);
         let add_call = quote! {
             lattice.add_point(#getter_name());
         };
@@ -66,7 +66,7 @@ pub fn generate_zos_poem_points_code(context: &mut GenerationContext) {
         if let Ok(prime) = prime_str.parse::<i32>() {
             let poem_id = format!("/data/data/com.termux/files/home/storage/github/rustc/crates/introspector/{}", poem_file);
             let prime_id = format!("zos_prime_{}", prime);
-            let getter_name = format_ident!("get_poem_{}_definition", poem_file.replace(".md", "").replace("-", "_").replace("/", "_"));
+            let getter_name = format_ident!("get_poem_{}_definition", poem_file.replace(".md", "").replace("-", "_").replace("/", "_").replace("(", "_").replace(")", "_").replace(" ", "_"));
             let add_call = quote! {
                 lattice.add_point(#getter_name());
             };

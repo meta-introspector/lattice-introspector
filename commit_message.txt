@@ -1,0 +1,20 @@
+feat: Add execution time tracing and fix ZosPoemElement registration
+
+This commit introduces the ability to trace the execution time of the `lattice-macros-test` binary and record it as a `LatticePoint` in the global lattice.
+
+Key changes include:
+- Introduced a new `LatticePointKind::ExecutionTrace` to represent execution time and status.
+- Modified `lattice-macros-test/src/main.rs` to:
+    - Record the start and end times of execution.
+    - Calculate the duration.
+    - Create an `ExecutionTrace` `LatticePoint` with the duration, command arguments, and status.
+    - Log this `ExecutionTrace` `LatticePoint` to a JSON file in the `.gemini/lattice_events` directory.
+- Updated `match` statements in `lattice/construction-build-utils/src/generators/binary.rs`, `lattice/construction-build-utils/src/generators/predicted_execution.rs`, and `lattice/lattice-macros/src/lib.rs` to handle the new `ExecutionTrace` `LatticePointKind`.
+
+Additionally, this commit addresses a long-standing issue with the registration of `ZosPoemElement` `LatticePoint`s. After extensive debugging, it was determined that the `TokenStream`s generated for `ZosPoemElement`s were not being correctly expanded when included in the `generated_lattice_registration.rs` file. To resolve this:
+- Reverted `lattice/construction-build-utils/src/zos_mapper.rs` to its previous state where `ZosPoemElement`s were generated using getter functions. This ensures that the `TokenStream`s are correctly formed and expanded.
+- Removed debugging `eprintln!` statements from `lattice/construction-build-utils/src/lib.rs` and `lattice/lattice-macros-test/src/main.rs`.
+- Corrected the relative path for copying `generated_lattice_registration.rs` in `lattice/construction/build.rs` to ensure the file is accessible for inspection.
+- Cleaned up duplicated comments in `lattice/construction-build-utils/src/zos_mapper.rs`.
+
+This commit ensures that `ZosPoemElement`s are now correctly registered in the global lattice, and provides a mechanism for tracing execution times.
