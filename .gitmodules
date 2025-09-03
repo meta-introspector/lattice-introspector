@@ -52,3 +52,7 @@
 	path = vendor/simd-kernels
 	url = https://github.com/meta-introspector/simd-kernels
 	branch = main
+[submodule "vendor/memkb-mcp-rust"]
+	path = vendor/memkb-mcp-rust
+	url = https://github.com/meta-introspector/memkb-mcp-rust
+	branch = master
