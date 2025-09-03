@@ -1,0 +1,12 @@
+{
+  "id": "vibe_number_duality",
+  "kind": "CorePrinciple",
+  "metadata": {
+    "name": "Vibe and Number Duality",
+    "description": "A core principle and universal translation layer that maps qualitative essence ('vibe') to quantitative representation ('number' or vector) across all forms of information."
+  },
+  "relationships": [
+    {"target_id": "univalent_lattice", "relationship_type": "governs"}
+  ],
+  "hero_status": null
+}

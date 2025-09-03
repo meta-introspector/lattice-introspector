@@ -1,0 +1,12 @@
+{
+  "id": "godelian_truth_concept",
+  "kind": "CorePrinciple",
+  "metadata": {
+    "name": "GodelianTruth",
+    "description": "Represents foundational, unprovable axioms or truths inherent to the Lattice's reality, serving as its bedrock."
+  },
+  "relationships": [
+    {"target_id": "univalent_lattice", "relationship_type": "foundation_of"}
+  ],
+  "hero_status": null
+}

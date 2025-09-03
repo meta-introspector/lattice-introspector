@@ -1,0 +1,15 @@
+{
+  "id": "univalent_lattice",
+  "kind": "UniversalConcept",
+  "metadata": {
+    "name": "The Univalent Lattice",
+    "description": "The overarching computational framework, described as a multi-dimensional tapestry, map of all information, and a unified framework for everything digital.",
+    "aliases": ["The System", "Cosmic Web"]
+  },
+  "relationships": [
+    {"target_id": "lattice_point", "relationship_type": "composed_of"},
+    {"target_id": "vibe_number_duality", "relationship_type": "governed_by"},
+    {"target_id": "transformation_concept", "relationship_type": "driven_by"}
+  ],
+  "hero_status": null
+}
