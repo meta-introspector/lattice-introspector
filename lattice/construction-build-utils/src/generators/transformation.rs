@@ -1,15 +1,11 @@
-use std::path::Path;
 use quote::{quote, format_ident};
 use proc_macro2::TokenStream;
 use std::collections::HashMap;
 use chrono::Utc;
 
-use crate::LatticePoint;
+use crate::{LatticePoint, GenerationContext};
 
-pub fn generate_transformation_code(
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-) {
+pub fn generate_transformation_code(context: &mut GenerationContext) {
     // Conceptual points for demonstration
     let code_point_id = "conceptual_code_point".to_string();
     let poem_point_id = "conceptual_poem_point".to_string();
@@ -34,9 +30,10 @@ pub fn generate_transformation_code(
         ],
         hero_status: None,
     };
+    println!("{:?}", transformation_point);
     let static_tx_name = format_ident!("{}_LATTICE_POINT", transformation_id.to_uppercase());
     let get_tx_fn_name = format_ident!("get_{}_lattice_point", transformation_id.to_lowercase());
-    getter_function_definitions.push(quote! {
+    context.getter_function_definitions.push(quote! {
         #[allow(dead_code)]
         static #static_tx_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
             use std::collections::HashMap;
@@ -62,7 +59,7 @@ pub fn generate_transformation_code(
             &#static_tx_name
         }
     });
-    add_point_calls.push(quote! {
+    context.add_point_calls.push(quote! {
         lattice.add_point(#get_tx_fn_name().clone());
     });
 

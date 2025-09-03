@@ -1,15 +1,10 @@
-use std::path::Path;
 use quote::{quote, format_ident};
-use proc_macro2::TokenStream;
 use std::collections::HashMap;
 use chrono::Utc;
 
-use crate::LatticePoint;
+use crate::{GenerationContext, LatticePoint};
 
-pub fn generate_git_related_points_code(
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-) {
+pub fn generate_git_related_points_code(context: &mut GenerationContext) {
     // Add a GitDerivedAsset point for the project's root Git repository
     let project_git_repo_url = "https://github.com/rust-lang/rust".to_string(); // Example URL
     let git_derived_asset_id = format!("git_derived_asset_{}", project_git_repo_url.replace(".", "_").replace("/", "_").replace(":", "_").replace("-", "_"));
@@ -26,9 +21,10 @@ pub fn generate_git_related_points_code(
         relationships: Vec::new(),
         hero_status: None,
     };
+    println!("{:?}", git_derived_asset_point);
     let static_gda_name = format_ident!("{}_LATTICE_POINT", git_derived_asset_id.to_uppercase());
     let get_gda_fn_name = format_ident!("get_{}_lattice_point", git_derived_asset_id.to_lowercase());
-    getter_function_definitions.push(quote! {
+    context.getter_function_definitions.push(quote! {
         #[allow(dead_code)]
         static #static_gda_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
             use std::collections::HashMap;
@@ -50,7 +46,7 @@ pub fn generate_git_related_points_code(
             &#static_gda_name
         }
     });
-    add_point_calls.push(quote! {
+    context.add_point_calls.push(quote! {
         lattice.add_point(#get_gda_fn_name().clone());
     });
 
@@ -74,9 +70,10 @@ pub fn generate_git_related_points_code(
         relationships: vec![git_derived_asset_id.clone()], // Relate to the GitDerivedAsset
         hero_status: None,
     };
+    println!("{:?}", project_repo_point);
     let static_ghr_name = format_ident!("{}_LATTICE_POINT", project_repo_id.to_uppercase());
     let get_ghr_fn_name = format_ident!("get_{}_lattice_point", project_repo_id.to_lowercase());
-    getter_function_definitions.push(quote! {
+    context.getter_function_definitions.push(quote! {
         #[allow(dead_code)]
         static #static_ghr_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
             use std::collections::HashMap;
@@ -103,7 +100,7 @@ pub fn generate_git_related_points_code(
             &#static_ghr_name
         }
     });
-    add_point_calls.push(quote! {
+    context.add_point_calls.push(quote! {
         lattice.add_point(#get_ghr_fn_name().clone());
     });
 }

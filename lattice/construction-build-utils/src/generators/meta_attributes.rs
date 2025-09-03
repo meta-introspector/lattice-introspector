@@ -1,16 +1,13 @@
 use quote::{quote, format_ident};
-use proc_macro2::TokenStream;
 use std::fs;
-use std::path::Path;
 
-pub fn generate_meta_attributes_code(
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-    lattice_poem_mapping_path: &Path,
-) {
+use crate::GenerationContext;
+
+pub fn generate_meta_attributes_code(context: &mut GenerationContext) {
+    println!("{:?}", context.add_point_calls);
     let mut emoji_vibes_tokens = Vec::new();
 
-    if let Ok(content) = fs::read_to_string(lattice_poem_mapping_path) {
+    if let Ok(content) = fs::read_to_string(context.lattice_poem_mapping_path) {
         let mut lines = content.lines().peekable();
 
         while let Some(line) = lines.next() {
@@ -54,7 +51,7 @@ pub fn generate_meta_attributes_code(
     let static_name = format_ident!("ALL_EMOJI_VIBES");
     let get_fn_name = format_ident!("get_all_emoji_vibes");
 
-    getter_function_definitions.push(quote! {
+    context.getter_function_definitions.push(quote! {
         #[allow(dead_code)]
         pub static #static_name: once_cell::sync::Lazy<Vec<crate::meta_attributes::EmojiVibe>> = once_cell::sync::Lazy::new(|| {
             vec![

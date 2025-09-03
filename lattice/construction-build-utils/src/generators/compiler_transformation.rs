@@ -1,10 +1,7 @@
-use std::path::Path;
 use quote::{quote, format_ident};
 use proc_macro2::TokenStream;
 use std::collections::HashMap;
 use chrono::Utc;
-
-use crate::LatticePoint;
 
 pub fn generate_compiler_transformation_code(
     getter_function_definitions: &mut Vec<TokenStream>,
@@ -16,7 +13,7 @@ pub fn generate_compiler_transformation_code(
 
     // Add a CompilerTransformation point for the Rust compiler
     let transformation_id = "compiler_transformation_rustc".to_string();
-    let compiler_transformation_point = LatticePoint {
+    let _compiler_transformation_point = LatticePoint {
         id: transformation_id.clone(),
         kind: lattice_types::LatticePointKind::CompilerTransformation,
         metadata: {

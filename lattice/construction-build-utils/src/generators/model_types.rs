@@ -1,14 +1,11 @@
 use std::{fs, path::Path};
 use syn::{Item, Ident};
 use quote::{quote, format_ident};
-use proc_macro2::TokenStream;
 
 use crate::utils::get_module_prefix_for_ident;
+use crate::GenerationContext;
 
-pub fn generate_model_types_code(
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-) {
+pub fn generate_model_types_code(context: &mut GenerationContext) {
     let model_types_dir = Path::new("src/model_types");
     for entry in fs::read_dir(model_types_dir).unwrap() {
         let entry = entry.unwrap();
@@ -44,7 +41,7 @@ pub fn generate_model_types_code(
                     if has_derive_lattice_point {
                         let get_fn_name = format_ident!("get_{}_lattice_point", ident.to_string().to_lowercase());
                         let module_prefix = get_module_prefix_for_ident(ident);
-                        add_point_calls.push(quote! {
+                        context.add_point_calls.push(quote! {
                             lattice.add_point(#module_prefix #get_fn_name().clone());
                         });
                     }

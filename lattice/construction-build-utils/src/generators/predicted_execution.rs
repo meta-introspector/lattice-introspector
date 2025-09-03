@@ -1,18 +1,10 @@
-use std::path::Path;
 use quote::{quote, format_ident};
-use proc_macro2::TokenStream;
-use std::collections::HashMap;
-use chrono::Utc;
 
-use crate::LatticePoint;
+use crate::GenerationContext;
 
-pub fn generate_predicted_execution_point_code(
-    predicted_execution_point: Option<LatticePoint>,
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-) {
-    if let Some(pep) = predicted_execution_point {
-        let pep_id = pep.id;
+pub fn generate_predicted_execution_point_code(context: &mut GenerationContext) {
+    if let Some(pep) = context.predicted_execution_point.as_ref() {
+        let pep_id = pep.id.clone();
         let pep_kind = match pep.kind {
             lattice_types::LatticePointKind::Struct => quote! { lattice_types::LatticePointKind::Struct },
             lattice_types::LatticePointKind::Enum => quote! { lattice_types::LatticePointKind::Enum },
@@ -54,7 +46,7 @@ pub fn generate_predicted_execution_point_code(
         let static_pep_name = format_ident!("{}_LATTICE_POINT", pep_id.to_uppercase());
         let get_pep_fn_name = format_ident!("get_{}_lattice_point", pep_id.to_lowercase());
 
-        getter_function_definitions.push(quote! {
+        context.getter_function_definitions.push(quote! {
             #[allow(dead_code)]
             static #static_pep_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
                 use std::collections::HashMap;
@@ -79,7 +71,7 @@ pub fn generate_predicted_execution_point_code(
                 &#static_pep_name
             }
         });
-        add_point_calls.push(quote! {
+        context.add_point_calls.push(quote! {
             lattice.add_point(#get_pep_fn_name().clone());
         });
     }

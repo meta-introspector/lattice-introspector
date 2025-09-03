@@ -2,15 +2,11 @@ use std::{fs, path::Path};
 use quote::{quote, format_ident};
 use proc_macro2::TokenStream;
 use std::collections::HashMap;
-use chrono::Utc;
 
-use crate::LatticePoint;
 use crate::utils::get_and_increment_step_count;
+use crate::GenerationContext;
 
-pub fn generate_self_proving_statement_code(
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-) {
+pub fn generate_self_proving_statement_code(context: &mut GenerationContext) {
     // Get and increment the step count
     let current_step = get_and_increment_step_count();
     let target_steps = 42;
@@ -21,7 +17,7 @@ pub fn generate_self_proving_statement_code(
     let self_proving_point_id = "self_proving_statement".to_string();
 
     // Add the SelfProvingStatement to getter_function_definitions and add_point_calls
-    getter_function_definitions.push(quote! {
+    context.getter_function_definitions.push(quote! {
         #[allow(dead_code)]
         static SELF_PROVING_STATEMENT_LATTICE_POINT: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
             use std::collections::HashMap;
@@ -47,7 +43,7 @@ pub fn generate_self_proving_statement_code(
             &SELF_PROVING_STATEMENT_LATTICE_POINT
         }
     });
-    add_point_calls.push(quote! {
+    context.add_point_calls.push(quote! {
         lattice.add_point(crate::model_types::self_proving_statement::get_selfprovingstatement_lattice_point().clone());
     });
 

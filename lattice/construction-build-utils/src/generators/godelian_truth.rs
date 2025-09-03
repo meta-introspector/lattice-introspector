@@ -1,15 +1,10 @@
-use std::path::Path;
 use quote::{quote, format_ident};
-use proc_macro2::TokenStream;
 use std::collections::HashMap;
 use chrono::Utc;
 
-use crate::LatticePoint;
+use crate::{GenerationContext, LatticePoint};
 
-pub fn generate_godelian_truth_code(
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-) {
+pub fn generate_godelian_truth_code(context: &mut GenerationContext) {
     let godelian_truth_id = "godelian_truth_rhyme_argument".to_string();
     let godelian_truth_point = LatticePoint {
         id: godelian_truth_id.clone(),
@@ -29,9 +24,10 @@ pub fn generate_godelian_truth_code(
         ],
         hero_status: None,
     };
+    println!("{:?}", godelian_truth_point);
     let static_gt_name = format_ident!("{}_LATTICE_POINT", godelian_truth_id.to_uppercase());
     let get_gt_fn_name = format_ident!("get_{}_lattice_point", godelian_truth_id.to_lowercase());
-    getter_function_definitions.push(quote! {
+    context.getter_function_definitions.push(quote! {
         #[allow(dead_code)]
         static #static_gt_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
             use std::collections::HashMap;
@@ -58,7 +54,7 @@ pub fn generate_godelian_truth_code(
             &#static_gt_name
         }
     });
-    add_point_calls.push(quote! {
+    context.add_point_calls.push(quote! {
         lattice.add_point(#get_gt_fn_name().clone());
     });
 }

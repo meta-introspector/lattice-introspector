@@ -1,18 +1,10 @@
-use std::path::Path;
 use quote::{quote, format_ident};
-use proc_macro2::TokenStream;
-use std::collections::HashMap;
-use chrono::Utc;
 
-use crate::LatticePoint;
+use crate::GenerationContext;
 
-pub fn generate_binary_point_code(
-    binary_point: Option<LatticePoint>,
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-) {
-    if let Some(bp) = binary_point {
-        let binary_id = bp.id;
+pub fn generate_binary_point_code(context: &mut GenerationContext) {
+    if let Some(bp) = context.binary_point.as_ref() {
+        let binary_id = bp.id.clone();
         let binary_kind = match bp.kind {
             lattice_types::LatticePointKind::Struct => quote! { lattice_types::LatticePointKind::Struct },
             lattice_types::LatticePointKind::Enum => quote! { lattice_types::LatticePointKind::Enum },
@@ -54,7 +46,7 @@ pub fn generate_binary_point_code(
         let static_binary_name = format_ident!("{}_LATTICE_POINT", binary_id.to_uppercase());
         let get_binary_fn_name = format_ident!("get_{}_lattice_point", binary_id.to_lowercase());
 
-        getter_function_definitions.push(quote! {
+        context.getter_function_definitions.push(quote! {
             #[allow(dead_code)]
             static #static_binary_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
                 use std::collections::HashMap;
@@ -79,7 +71,7 @@ pub fn generate_binary_point_code(
                 &#static_binary_name
             }
         });
-        add_point_calls.push(quote! {
+        context.add_point_calls.push(quote! {
             lattice.add_point(#get_binary_fn_name().clone());
         });
     }

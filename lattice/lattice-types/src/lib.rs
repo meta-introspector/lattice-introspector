@@ -47,3 +47,34 @@ pub struct LatticePoint {
     pub relationships: Vec<String>, // IDs of other LatticePoints this point is related to
     pub hero_status: Option<String>, // Optional field to indicate heroification status/stage
 }
+
+/// An opaque handle to a LatticePoint, identified by its unique ID.
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct LatticeHandle(pub String);
+
+impl From<String> for LatticeHandle {
+    fn from(id: String) -> Self {
+        LatticeHandle(id)
+    }
+}
+
+impl From<&str> for LatticeHandle {
+    fn from(id: &str) -> Self {
+        LatticeHandle(id.to_string())
+    }
+}
+
+impl std::fmt::Display for LatticeHandle {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+/// A trait for accessing LatticePoints from a Lattice-like structure.
+pub trait LatticeAccess {
+    /// Retrieves a reference to a LatticePoint by its handle.
+    fn get_point(&self, handle: &LatticeHandle) -> Option<&LatticePoint>;
+
+    /// Adds a LatticePoint to the lattice, returning its handle.
+    fn add_point(&mut self, point: LatticePoint) -> LatticeHandle;
+}

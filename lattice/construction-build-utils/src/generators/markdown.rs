@@ -1,18 +1,11 @@
-use std::path::Path;
 use quote::{quote, format_ident};
-use proc_macro2::TokenStream;
-use std::collections::HashMap;
 
-use crate::LatticePoint;
+use crate::GenerationContext;
 use lattice_introspector::markdown_introspector::introspect_markdown_document;
 
-pub fn generate_markdown_document_code(
-    markdown_paths: &[&Path],
-    getter_function_definitions: &mut Vec<TokenStream>,
-    add_point_calls: &mut Vec<TokenStream>,
-) {
+pub fn generate_markdown_document_code(context: &mut GenerationContext) {
     // --- Process Markdown files ---
-    for md_path in markdown_paths {
+    for md_path in context.markdown_paths {
         if md_path.exists() && md_path.is_file() {
             let file_stem = md_path.file_stem().unwrap().to_string_lossy().to_string();
             let get_fn_name = format_ident!("get_{}_markdown_document_lattice_point", file_stem.to_lowercase());
@@ -33,7 +26,7 @@ pub fn generate_markdown_document_code(
 
             let static_md_name = format_ident!("{}_MARKDOWN_DOCUMENT_LATTICE_POINT", file_stem.to_uppercase());
 
-            getter_function_definitions.push(quote! {
+            context.getter_function_definitions.push(quote! {
                 #[allow(dead_code)]
                 static #static_md_name: once_cell::sync::Lazy<lattice_types::LatticePoint> = once_cell::sync::Lazy::new(|| {
                     use std::collections::HashMap;
@@ -58,7 +51,7 @@ pub fn generate_markdown_document_code(
                     &#static_md_name
                 }
             });
-            add_point_calls.push(quote! {
+            context.add_point_calls.push(quote! {
                 lattice.add_point(#get_fn_name().clone());
             });
         }
