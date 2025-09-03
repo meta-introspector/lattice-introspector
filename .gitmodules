@@ -1,0 +1,4 @@
+[submodule "vendor/ragit"]
+	path = vendor/ragit
+	url = https://github.com/meta-introspector/ragit.git
+	branch = feature/numerical-directory-model
