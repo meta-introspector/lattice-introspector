@@ -56,3 +56,7 @@
 	path = vendor/memkb-mcp-rust
 	url = https://github.com/meta-introspector/memkb-mcp-rust
 	branch = master
+[submodule "vendor/monomcp-rust"]
+	path = vendor/monomcp-rust
+	url = https://github.com/meta-introspector/monomcp-rust
+	branch = main
