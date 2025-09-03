@@ -60,3 +60,7 @@
 	path = vendor/monomcp-rust
 	url = https://github.com/meta-introspector/monomcp-rust
 	branch = main
+[submodule "vendor/gen-mod-form"]
+	path = vendor/gen-mod-form
+	url = https://github.com/meta-introspector/gen-mod-form
+	branch = main
