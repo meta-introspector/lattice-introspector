@@ -20,3 +20,7 @@
 	path = vendor/abi_stable_crates
 	url = https://github.com/meta-introspector/abi_stable_crates
 	branch = master
+[submodule "vendor/aichat"]
+	path = vendor/aichat
+	url = https://github.com/meta-introspector/aichat
+	branch = feature/oauth
