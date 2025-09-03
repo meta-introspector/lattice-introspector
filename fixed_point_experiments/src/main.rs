@@ -51,7 +51,7 @@ fn main() {
         // Simulate slime for 'iterations' steps
         for iter in 0..iterations {
             // For this simplified calculation, we'll use a constant food grid
-            let food_grid = discretize_image(&feedback_sequence(0.8, 0.9, iter, image_config.center_x, image_config.center_y), &image_config);
+            let food_grid = discretize_image(&feedback_sequence(0.8, 0.9, iter, &image_config), &image_config);
             slime_grid = slime_step(diffusion_rate, attraction_rate, &food_grid, &slime_grid, &image_config);
 
             let center_x_idx = (image_config.grid_width / 2) as usize;
@@ -70,7 +70,7 @@ fn main() {
 
             // --- Debug Visualization ---
             let ascii_slime = grid_to_ascii(&slime_grid, &image_config);
-            let mut debug_img = render_ascii_to_image(&ascii_slime, &image_config);
+            let debug_img = render_ascii_to_image(&ascii_slime, &image_config);
 
             // Normalize to screen size and center
             let scaled_width = debug_img.width();
@@ -80,7 +80,7 @@ fn main() {
             let paste_y = (SCREEN_HEIGHT - scaled_height) / 2;
 
             let mut screen_img = RgbImage::new(SCREEN_WIDTH, SCREEN_HEIGHT);
-            image::imageops::overlay(&mut screen_img, &debug_img, paste_x, paste_y);
+            image::imageops::overlay(&mut screen_img, &debug_img, paste_x as i64, paste_y as i64);
 
 
             // Save debug PNG
@@ -92,14 +92,15 @@ fn main() {
         println!("  Generating GIF for {}x{} grid...", grid_dim, grid_dim);
         let gif_output_path = format!("debug_frames/grid_{}x{}.gif", grid_dim, grid_dim);
         let ffmpeg_command = format!(
-            "ffmpeg -y -i {}/frame_%05d.png -vf \"fps=10,scale={}:{}\" {}",
+            "ffmpeg -y -i {}/frame_%05d.png -start_number 0 -vf \"fps=10,scale={}:{}\" {}",
             debug_dir, SCREEN_WIDTH, SCREEN_HEIGHT, gif_output_path
         );
         // Note: This ffmpeg command will be executed by the shell script, not directly by Rust
         println!("    FFmpeg command: {}", ffmpeg_command);
     }
 
-    println!("\n--- Minimal Vertex Cover Calculation ---");
+    println!("\n--- Minimal Vertex Cover Calculation ---
+");
     let min_cost = find_min_cost();
     println!(
         "Minimal cost (min number of true variables for C5 vertex cover): {}",

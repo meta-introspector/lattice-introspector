@@ -5,7 +5,7 @@ use crate::config::ImageConfig;
 // Type aliases for clarity
 pub type Point2D = (f32, f32);
 use std::sync::Arc;
-pub type Image = Arc<dyn Fn(Point2D) -> f32 + Send + Sync + 'static>;
+pub type Image<'a> = Arc<dyn Fn(Point2D) -> f32 + Send + Sync + 'a>;
 pub type Grid = Vec<Vec<f32>>;
 
 // Grid dimensions
@@ -26,7 +26,7 @@ pub fn background(_p: Point2D) -> f32 {
     1.0
 }
 
-pub fn feedback_sequence(a: f32, s: f32, n: usize, config: &ImageConfig) -> Image {
+pub fn feedback_sequence<'a>(a: f32, s: f32, n: usize, config: &'a ImageConfig) -> Image<'a> {
     let mut image: Image = Arc::new(move |p| background(p)); // Initial image
     for _ in 0..n {
         let prev_image_clone = image.clone(); // Clone the Arc
