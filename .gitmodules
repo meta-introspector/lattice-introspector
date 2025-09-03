@@ -64,3 +64,7 @@
 	path = vendor/gen-mod-form
 	url = https://github.com/meta-introspector/gen-mod-form
 	branch = main
+[submodule "vendor/rustc-stable-hash"]
+	path = vendor/rustc-stable-hash
+	url = https://github.com/meta-introspector/rustc-stable-hash
+	branch = main
