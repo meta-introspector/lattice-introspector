@@ -10,6 +10,7 @@ pub use once_cell::sync::Lazy;
 pub mod generators;
 pub mod introspectors;
 pub mod utils;
+pub mod zos_mapper;
 
 pub struct GenerationContext<'a> {
     pub getter_function_definitions: &'a mut Vec<TokenStream>,

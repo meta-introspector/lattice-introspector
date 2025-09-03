@@ -33,6 +33,7 @@ pub enum LatticePointKind {
     GodelianTruth,          // Added for representing unprovable truths/foundational axioms
     AcademicPaper,          // Added for academic papers and publications
     AcademicAuthor,         // Added for academic authors and researchers
+    RustFile,               // Added for Rust source code files
     // Add more kinds as needed for the "universe of universes"
 }
 
