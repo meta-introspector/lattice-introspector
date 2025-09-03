@@ -32,3 +32,7 @@
 	path = vendor/copper
 	url = https://github.com/meta-introspector/copper
 	branch = main
+[submodule "vendor/grok-cli"]
+	path = vendor/grok-cli
+	url = https://github.com/meta-introspector/grok-cli.git
+	branch = main
