@@ -1,2 +1,2 @@
 #!/bin/bash
-timeout 10s /data/data/com.termux/files/home/storage/github/rustc/crates/introspector/crates/ultimate_blinkenlights_simulation/target/debug/ultimate_blinkenlights_simulation > blinkenlights_output.log 2>&1
+timeout 10s cargo run ultimate_blinkenlights_simulation > blinkenlights_output.log 2>&1
