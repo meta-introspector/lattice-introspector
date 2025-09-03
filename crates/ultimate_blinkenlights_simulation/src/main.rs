@@ -1,6 +1,6 @@
 use clap::Parser;
 use std::thread;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 use std::io::{self, Write}; // For flushing stdout
 
 // Custom output functions
@@ -34,11 +34,17 @@ fn main() {
     let blink_frequency_hz = 1.0; // 1 Hz blink
     let blink_duration_ms = (1000.0 / blink_frequency_hz / 2.0) as u64; // Half on, half off
 
+    print_message("Press Ctrl+C to exit.");
+
+    let start_time = Instant::now();
+    print_message(&format!("Simulation started at: {:?}", start_time));
+
     let mut step_count = 0;
 
     loop {
         step_count += 1;
-        print_message(&format!("Step {}: Blinkenlight ON", step_count));
+        let current_time = Instant::now();
+        print_message(&format!("[{:?}] Step {}: Blinkenlight ON", current_time - start_time, step_count));
         // Turn on
         print!("\r{}", blink_char); // \r returns cursor to start of line
         io::stdout().flush().unwrap(); // Ensure it's printed immediately
@@ -49,7 +55,8 @@ fn main() {
         }
 
         step_count += 1;
-        print_message(&format!("Step {}: Blinkenlight OFF", step_count));
+        let current_time = Instant::now();
+        print_message(&format!("[{:?}] Step {}: Blinkenlight OFF", current_time - start_time, step_count));
         // Turn off (clear character)
         print!("\r "); // Overwrite with space
         io::stdout().flush().unwrap();
@@ -59,5 +66,6 @@ fn main() {
             break;
         }
     }
-    print_section_header(&format!("Simulation stopped after {} steps.", max_steps));
+    let end_time = Instant::now();
+    print_section_header(&format!("Simulation stopped after {} steps. Total duration: {:?}", max_steps, end_time - start_time));
 }
