@@ -16,3 +16,7 @@
 	path = vendor/solfunmeme-dioxus
 	url = https://github.com/meta-introspector/solfunmeme-dioxus
 	branch = main
+[submodule "vendor/abi_stable_crates"]
+	path = vendor/abi_stable_crates
+	url = https://github.com/meta-introspector/abi_stable_crates
+	branch = master
