@@ -1,14 +1,12 @@
-use image::{RgbImage, Rgb};
-use gif::{Encoder, Frame, Repeat};
-use std::fs::File;
-use std::io::BufWriter;
+use image::{RgbImage};
 use solfunmeme_banner::banner_generator::generate_solfunmeme_banner;
+use std::path::Path; // Added for path manipulation
 
 mod image_utils;
 mod slime_mold;
 mod sat_solver;
 
-use image_utils::{GRID_WIDTH, GRID_HEIGHT, render_ascii_to_image, grid_to_ascii};
+use image_utils::{GRID_WIDTH, GRID_HEIGHT, render_ascii_to_image, grid_to_ascii, load_image_from_path};
 use slime_mold::{meta_slime_sequence_with_history};
 use sat_solver::{find_min_cost};
 
@@ -18,71 +16,94 @@ fn main() {
     let s = 0.9;
     let diffusion_rate = 0.1;
     let attraction_rate = 0.05;
-    let iterations = 64;
+    let iterations = 64; // Number of slime mold iterations
 
-    // Zos primes for Figlet animation
+    // Zos primes for Figlet animation (still used for banner generation)
     let zos_primes = vec![0, 1, 2, 3, 5, 7, 11, 13, 17, 19, 23];
-    let mut figlet_frames: Vec<RgbImage> = Vec::new();
 
-    for (i, prime) in zos_primes.iter().enumerate() {
-        let git_hash = format!("{:x}", prime); // Use prime as a simple hash
-        let banner_text = generate_solfunmeme_banner(&git_hash, i, 0.1); // Use i for iteration
-        let img = render_ascii_to_image(&banner_text);
-        figlet_frames.push(img);
-    }
-
-    // Evaluate slime at center
+    // Slime mold history (calculated once)
     let slime_history = meta_slime_sequence_with_history(a, s, diffusion_rate, attraction_rate, iterations);
-    let final_slime = slime_history.last().expect("Slime history should not be empty");
-    let center_conc = if 320 < GRID_WIDTH && 240 < GRID_HEIGHT {
-        final_slime[320][240]
-    } else {
-        0.0
-    };
 
-    // Find minimal vertex cover
+    // Find minimal vertex cover (calculated once)
     let min_cost = find_min_cost();
 
     println!(
         "Slime concentration at center after {} meta iterations: {:.2}",
         iterations,
-        center_conc
+        slime_history.last().expect("Slime history should not be empty")[GRID_WIDTH / 2][GRID_HEIGHT / 2]
     );
     println!(
         "Minimal cost (min number of true variables for C5 vertex cover): {}",
         min_cost
     );
 
-    // GIF generation
-    let output_path = "slime_and_figlet_simulation.gif";
-    let file = File::create(output_path).expect("Could not create GIF file");
-    let mut encoder = Encoder::new(
-        BufWriter::new(file),
-        GRID_WIDTH as u16,
-        GRID_HEIGHT as u16,
-        &[], // Global palette (optional)
-    ).expect("Could not create GIF encoder");
+    // --- Layered Frame Generation ---
+    let num_video_frames = 624; // Total number of extracted video frames
+    let output_frame_dir = "layered_frames";
 
-    encoder.set_repeat(Repeat::Infinite).expect("Could not set GIF repeat");
+    for i in 1..=num_video_frames {
+        let frame_path = format!("extracted_media/frames/frame_{:05}.png", i);
+        let background_img = load_image_from_path(&frame_path);
 
-    // Add Figlet frames
-    for (i, img) in figlet_frames.iter().enumerate() {
-        println!("Encoding Figlet frame {}/{}:", i + 1, figlet_frames.len());
-        let mut frame = Frame::from_rgba(GRID_WIDTH as u16, GRID_HEIGHT as u16, &mut img.clone().into_raw());
-        frame.delay = 10; // 100ms delay
-        encoder.write_frame(&frame).expect("Could not write Figlet frame");
+        // Create a new image to draw layers on
+        let mut layered_frame = RgbImage::new(GRID_WIDTH as u32, GRID_HEIGHT as u32);
+
+        // Layer 1: Background video frame
+        // Copy pixels from background_img to layered_frame
+        for x in 0..GRID_WIDTH {
+            for y in 0..GRID_HEIGHT {
+                layered_frame.put_pixel(x as u32, y as u32, *background_img.get_pixel(x as u32, y as u32));
+            }
+        }
+
+        // Layer 2: Slime mold (overlayed on top of background)
+        // We need to decide how to blend the slime mold. For simplicity, let's
+        // just draw it as ASCII art on top of the background.
+        let slime_grid_index = (i - 1) % slime_history.len(); // Loop slime history if video is longer
+        let current_slime_grid = &slime_history[slime_grid_index];
+        let ascii_slime = grid_to_ascii(current_slime_grid);
+        // Render ASCII art to an RgbImage (this will be the slime layer)
+        let slime_layer_img = render_ascii_to_image(&ascii_slime);
+
+        // Overlay slime_layer_img onto layered_frame
+        for x in 0..GRID_WIDTH {
+            for y in 0..GRID_HEIGHT {
+                let slime_pixel = slime_layer_img.get_pixel(x as u32, y as u32);
+                // Simple blending: if slime pixel is not white (background), draw it
+                if slime_pixel[0] != 255 || slime_pixel[1] != 255 || slime_pixel[2] != 255 {
+                    layered_frame.put_pixel(x as u32, y as u32, *slime_pixel);
+                }
+            }
+        }
+
+
+        // Layer 3: Figlet (overlayed on top of previous layers)
+        // For simplicity, let's use the Figlet from the original zos_primes loop,
+        // but we'll need to decide how to position it.
+        let figlet_index = (i - 1) % zos_primes.len(); // Loop figlet frames
+        let git_hash = format!("{:x}", zos_primes[figlet_index]);
+        let banner_text = generate_solfunmeme_banner(&git_hash, figlet_index, 0.1);
+        let figlet_img = render_ascii_to_image(&banner_text);
+
+        // Overlay figlet_img onto layered_frame
+        for x in 0..GRID_WIDTH {
+            for y in 0..GRID_HEIGHT {
+                let figlet_pixel = figlet_img.get_pixel(x as u32, y as u32);
+                // Simple blending: if figlet pixel is not white (background), draw it
+                if figlet_pixel[0] != 255 || figlet_pixel[1] != 255 || figlet_pixel[2] != 255 {
+                    layered_frame.put_pixel(x as u32, y as u32, *figlet_pixel);
+                }
+            }
+        }
+
+
+        // Save the layered frame
+        let output_frame_path = format!("{}/layered_frame_{:05}.png", output_frame_dir, i);
+        layered_frame.save(&output_frame_path).expect("Failed to save layered frame");
     }
 
-    // Add Slime frames
-    for (i, grid) in slime_history.iter().enumerate() {
-        println!("Encoding Slime frame {}/{}:", i + 1, slime_history.len());
-        let ascii_slime = grid_to_ascii(grid);
-        println!("{}\n", ascii_slime); // Print ASCII art to console
-        let img = render_ascii_to_image(&ascii_slime);
-        let mut frame = Frame::from_rgba(GRID_WIDTH as u16, GRID_HEIGHT as u16, &mut img.into_raw());
-        frame.delay = 10; // 100ms delay
-        encoder.write_frame(&frame).expect("Could not write Slime frame");
-    }
+    println!("Generated {} layered frames in {}", num_video_frames, output_frame_dir);
 
-    println!("GIF saved to {}", output_path);
+    // --- Recompose Video ---
+    // This part will be done using ffmpeg in a separate step after Rust code finishes
 }

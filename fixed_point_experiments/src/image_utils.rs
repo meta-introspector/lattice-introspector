@@ -1,19 +1,17 @@
-use std::cmp::{max, min};
+use std::cmp::min;
 use image::{RgbImage, Rgb};
-use gif::{Encoder, Frame, Repeat};
-use std::fs::File;
-use std::io::BufWriter;
 
 // Type aliases for clarity
 pub type Point2D = (f32, f32);
-pub type Image<'a> = Box<dyn Fn(Point2D) -> f32 + 'a>;
+use std::sync::Arc;
+pub type Image = Arc<dyn Fn(Point2D) -> f32 + Send + Sync + 'static>;
 pub type Grid = Vec<Vec<f32>>;
 
 // Grid dimensions
-pub const GRID_WIDTH: usize = 640;
-pub const GRID_HEIGHT: usize = 480;
-pub const CENTER_X: f32 = 320.0;
-pub const CENTER_Y: f32 = 240.0;
+pub const GRID_WIDTH: usize = 576;
+pub const GRID_HEIGHT: usize = 1024;
+pub const CENTER_X: f32 = 288.0;
+pub const CENTER_Y: f32 = 512.0;
 
 // Character rendering dimensions
 pub const CHAR_WIDTH: usize = 8;
@@ -31,16 +29,11 @@ pub fn background(_p: Point2D) -> f32 {
     1.0
 }
 
-// Feedback step for TV loop
-pub fn feedback_step<'a>(a: f32, s: f32, prev_image: &'a Image<'a>) -> Image<'a> {
-    Box::new(move |p| a * prev_image(transform(s, p)) + background(p))
-}
-
-// Feedback sequence
-pub fn feedback_sequence(a: f32, s: f32, n: usize) -> Image<'static> {
-    let mut image: Image<'static> = Box::new(background);
+pub fn feedback_sequence(a: f32, s: f32, n: usize) -> Image {
+    let mut image: Image = Arc::new(move |p| background(p)); // Initial image
     for _ in 0..n {
-        image = feedback_step(a, s, &image);
+        let prev_image_clone = image.clone(); // Clone the Arc
+        image = Arc::new(move |p| a * prev_image_clone(transform(s, p)) + background(p));
     }
     image
 }
@@ -56,17 +49,12 @@ pub fn discretize_image(img: &Image) -> Grid {
     grid
 }
 
-// Converts a Grid (slime concentration) to an RgbImage
-pub fn grid_to_image(grid: &Grid) -> RgbImage {
-    let mut img = RgbImage::new(GRID_WIDTH as u32, GRID_HEIGHT as u32);
-    for x in 0..GRID_WIDTH {
-        for y in 0..GRID_HEIGHT {
-            let intensity = (grid[x][y] * 255.0) as u8;
-            img.put_pixel(x as u32, y as u32, Rgb([intensity, intensity, intensity]));
-        }
-    }
-    img
+// Loads an RgbImage from a given path
+pub fn load_image_from_path(path: &str) -> RgbImage {
+    image::open(path).expect("Failed to open image").to_rgb8()
 }
+
+
 
 // Converts a Grid (slime concentration) to an ASCII art string
 pub fn grid_to_ascii(grid: &Grid) -> String {

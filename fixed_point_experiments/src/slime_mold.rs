@@ -1,4 +1,4 @@
-use crate::image_utils::{Grid, Image, GRID_WIDTH, GRID_HEIGHT, discretize_image, feedback_sequence};
+use crate::image_utils::{Grid, GRID_WIDTH, GRID_HEIGHT, discretize_image, feedback_sequence};
 
 // Slime mold step: Diffusion + chemotaxis
 pub fn slime_step(diffusion_rate: f32, attraction_rate: f32, food_grid: &Grid, prev_slime: &Grid) -> Grid {

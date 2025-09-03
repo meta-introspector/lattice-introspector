@@ -4,6 +4,7 @@ pub struct Variable {
     pub id: usize,
 }
 
+#[derive(Clone)]
 pub struct Clause {
     pub literals: Vec<(Variable, bool)>, // (var, is_true)
 }
