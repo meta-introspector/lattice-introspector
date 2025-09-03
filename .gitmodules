@@ -5,3 +5,6 @@
 [submodule "vendor/scirs"]
 	path = vendor/scirs
 	url = https://github.com/cool-japan/scirs.git
+[submodule "data"]
+	path = data
+	url = https://huggingface.co/datasets/introspector/meta-memes
