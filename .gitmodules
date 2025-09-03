@@ -8,3 +8,7 @@
 [submodule "data"]
 	path = data
 	url = https://huggingface.co/datasets/introspector/meta-memes
+[submodule "vendor/libminizinc"]
+	path = vendor/libminizinc
+	url = https://github.com/meta-introspector/minizinc-introspector
+	branch = main
