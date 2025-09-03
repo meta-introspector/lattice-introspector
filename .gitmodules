@@ -44,3 +44,7 @@
 	path = vendor/ai-agent-terraform
 	url = https://github.com/jmikedupont2/ai-agent-terraform/
 	branch = main
+[submodule "vendor/cloud-deployment-eliza"]
+	path = vendor/cloud-deployment-eliza
+	url = https://github.com/meta-introspector/cloud-deployment-eliza
+	branch = main
