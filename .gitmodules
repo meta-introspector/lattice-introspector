@@ -28,3 +28,7 @@
 	path = vendor/bootstrap
 	url = https://github.com/meta-introspector/bootstrap
 	branch = master
+[submodule "vendor/copper"]
+	path = vendor/copper
+	url = https://github.com/meta-introspector/copper
+	branch = main
