@@ -48,3 +48,7 @@
 	path = vendor/cloud-deployment-eliza
 	url = https://github.com/meta-introspector/cloud-deployment-eliza
 	branch = main
+[submodule "vendor/simd-kernels"]
+	path = vendor/simd-kernels
+	url = https://github.com/meta-introspector/simd-kernels
+	branch = main
