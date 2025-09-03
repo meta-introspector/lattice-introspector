@@ -68,3 +68,7 @@
 	path = vendor/rustc-stable-hash
 	url = https://github.com/meta-introspector/rustc-stable-hash
 	branch = main
+[submodule "vendor/rust-smallvec"]
+	path = vendor/rust-smallvec
+	url = https://github.com/meta-introspector/rust-smallvec
+	branch = gemini-changes
