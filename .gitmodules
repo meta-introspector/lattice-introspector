@@ -24,3 +24,7 @@
 	path = vendor/aichat
 	url = https://github.com/meta-introspector/aichat
 	branch = feature/oauth
+[submodule "vendor/bootstrap"]
+	path = vendor/bootstrap
+	url = https://github.com/meta-introspector/bootstrap
+	branch = master
