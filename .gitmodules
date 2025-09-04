@@ -72,3 +72,9 @@
 	path = vendor/rust-smallvec
 	url = https://github.com/meta-introspector/rust-smallvec
 	branch = gemini-changes
+[submodule "vendor/cranelift"]
+	path = vendor/cranelift
+	url = https://github.com/bytecodealliance/wasmtime.git
+[submodule "vendor/intel-mkl-src"]
+	path = vendor/intel-mkl-src
+	url = https://github.com/rust-math/intel-mkl-src
