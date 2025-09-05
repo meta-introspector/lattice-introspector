@@ -1,0 +1,11 @@
+[workspace]
+resolver = "2"
+members = [
+    "lattice/construction",
+    "lattice/construction-build-utils",
+    "lattice/lattice-analyzer",
+    "lattice/lattice-introspector",
+    "lattice/lattice-macros",
+    "lattice/lattice-macros-test",
+    "lattice/lattice-types",
+]
