@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "crates/resonance_core",
+    "crates/resonance_analyzer",
+]
