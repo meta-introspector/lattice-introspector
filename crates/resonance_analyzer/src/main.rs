@@ -149,7 +149,7 @@ fn main() {
         }
     }
 
-    // Print the lattice as JSON
+    // Write the lattice as JSON to a file
     let json_output = serde_json::to_string_pretty(&lattice).unwrap();
-    println!("{}", json_output);
+    fs::write("lattice.json", json_output).expect("Unable to write file");
 }
