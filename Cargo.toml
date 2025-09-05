@@ -1,6 +1,11 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/resonance_core",
-    "crates/resonance_analyzer",
+    "lattice/construction",
+    "lattice/construction-build-utils",
+    "lattice/lattice-analyzer",
+    "lattice/lattice-introspector",
+    "lattice/lattice-macros",
+    "lattice/lattice-macros-test",
+    "lattice/lattice-types",
 ]
