@@ -1,0 +1,12 @@
+{
+  "id": "construction_crate_concept",
+  "kind": "UniversalConcept",
+  "metadata": {
+    "name": "Construction Crate (Concept)",
+    "description": "The 'genesis block' or foundational layer responsible for building and modeling the computational context of the Lattice."
+  },
+  "relationships": [
+    {"target_id": "univalent_lattice", "relationship_type": "genesis_of"}
+  ],
+  "hero_status": null
+}

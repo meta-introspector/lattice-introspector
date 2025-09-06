@@ -1,0 +1,13 @@
+{
+  "id": "zos_axiom",
+  "kind": "CorePrinciple",
+  "metadata": {
+    "name": "Zos Axiom/Vector",
+    "description": "The fundamental set of primes `[0, 1, 2, 3, 5, 7, 11, 13, 17, 19, 23]` that quantifies topological sizes and archetypes within the system."
+  },
+  "relationships": [
+    {"target_id": "univalent_lattice", "relationship_type": "defines_structure_of"},
+    {"target_id": "slime_nucleus_dna_concept", "relationship_type": "influences"}
+  ],
+  "hero_status": null
+}

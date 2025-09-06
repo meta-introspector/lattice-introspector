@@ -1,0 +1,12 @@
+{
+  "id": "lattice_point_kind_concept",
+  "kind": "UniversalConcept",
+  "metadata": {
+    "name": "LatticePointKind (Concept)",
+    "description": "The universal classifier, an enum that defines the various types of `LatticePoint`s that can exist within the Lattice."
+  },
+  "relationships": [
+    {"target_id": "lattice_point", "relationship_type": "classifies"}
+  ],
+  "hero_status": null
+}

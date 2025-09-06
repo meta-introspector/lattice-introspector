@@ -30,6 +30,8 @@ pub enum LatticePointKind {
     UserIntent,         // Added for user intent/vibe as a multivector
     Transformation,     // Added for representing transformations/matrix operations
     CompilerTransformation, // Added for representing compiler transformations
+    UniversalConcept,       // Added for universal objects/concepts
+    CorePrinciple,          // Added for core principles/axioms
     GodelianTruth,          // Added for representing unprovable truths/foundational axioms
     AcademicPaper,          // Added for academic papers and publications
     AcademicAuthor,         // Added for academic authors and researchers

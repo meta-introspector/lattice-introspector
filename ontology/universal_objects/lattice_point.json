@@ -1,0 +1,14 @@
+{
+  "id": "lattice_point",
+  "kind": "UniversalConcept",
+  "metadata": {
+    "name": "LatticePoint",
+    "description": "The fundamental, atomic unit of information within the Lattice, serving as a universal Lego brick for representing diverse concepts.",
+    "aliases": ["Atom", "Node"]
+  },
+  "relationships": [
+    {"target_id": "univalent_lattice", "relationship_type": "part_of"},
+    {"target_id": "lattice_point_kind_concept", "relationship_type": "classified_by"}
+  ],
+  "hero_status": null
+}

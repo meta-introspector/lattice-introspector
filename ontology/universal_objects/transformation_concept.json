@@ -1,0 +1,12 @@
+{
+  "id": "transformation_concept",
+  "kind": "UniversalConcept",
+  "metadata": {
+    "name": "Transformation",
+    "description": "The universal mechanism for change, evolution, and interaction within the Lattice, encompassing processes like compilation and poem generation."
+  },
+  "relationships": [
+    {"target_id": "univalent_lattice", "relationship_type": "mechanism_of"}
+  ],
+  "hero_status": null
+}

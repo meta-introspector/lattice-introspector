@@ -1,0 +1,13 @@
+{
+  "id": "slime_nucleus_dna_concept",
+  "kind": "UniversalConcept",
+  "metadata": {
+    "name": "SlimeNucleus / DNA (Concept)",
+    "description": "The fundamental blueprint for emergent behavior and identity within a slime organism, embodying the 'string theory' of its core configuration."
+  },
+  "relationships": [
+    {"target_id": "slime_simulation_state", "relationship_type": "part_of"},
+    {"target_id": "zos_axiom", "relationship_type": "influenced_by"}
+  ],
+  "hero_status": null
+}

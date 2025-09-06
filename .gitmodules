@@ -1,0 +1,80 @@
+[submodule "vendor/ragit"]
+	path = vendor/ragit
+	url = https://github.com/meta-introspector/ragit.git
+	branch = feature/numerical-directory-model
+[submodule "vendor/scirs"]
+	path = vendor/scirs
+	url = https://github.com/cool-japan/scirs.git
+[submodule "data"]
+	path = data
+	url = https://huggingface.co/datasets/introspector/meta-memes
+[submodule "vendor/libminizinc"]
+	path = vendor/libminizinc
+	url = https://github.com/meta-introspector/minizinc-introspector
+	branch = main
+[submodule "vendor/solfunmeme-dioxus"]
+	path = vendor/solfunmeme-dioxus
+	url = https://github.com/meta-introspector/solfunmeme-dioxus
+	branch = main
+[submodule "vendor/abi_stable_crates"]
+	path = vendor/abi_stable_crates
+	url = https://github.com/meta-introspector/abi_stable_crates
+	branch = master
+[submodule "vendor/aichat"]
+	path = vendor/aichat
+	url = https://github.com/meta-introspector/aichat
+	branch = feature/oauth
+[submodule "vendor/bootstrap"]
+	path = vendor/bootstrap
+	url = https://github.com/meta-introspector/bootstrap
+	branch = master
+[submodule "vendor/copper"]
+	path = vendor/copper
+	url = https://github.com/meta-introspector/copper
+	branch = main
+[submodule "vendor/grok-cli"]
+	path = vendor/grok-cli
+	url = https://github.com/meta-introspector/grok-cli.git
+	branch = main
+[submodule "vendor/hugging-face-dataset-validator-rust"]
+	path = vendor/hugging-face-dataset-validator-rust
+	url = https://github.com/meta-introspector/hugging-face-dataset-validator-rust
+	branch = main
+[submodule "vendor/ai-agent-terraform"]
+	path = vendor/ai-agent-terraform
+	url = https://github.com/jmikedupont2/ai-agent-terraform/
+	branch = main
+[submodule "vendor/cloud-deployment-eliza"]
+	path = vendor/cloud-deployment-eliza
+	url = https://github.com/meta-introspector/cloud-deployment-eliza
+	branch = main
+[submodule "vendor/simd-kernels"]
+	path = vendor/simd-kernels
+	url = https://github.com/meta-introspector/simd-kernels
+	branch = main
+[submodule "vendor/memkb-mcp-rust"]
+	path = vendor/memkb-mcp-rust
+	url = https://github.com/meta-introspector/memkb-mcp-rust
+	branch = master
+[submodule "vendor/monomcp-rust"]
+	path = vendor/monomcp-rust
+	url = https://github.com/meta-introspector/monomcp-rust
+	branch = main
+[submodule "vendor/gen-mod-form"]
+	path = vendor/gen-mod-form
+	url = https://github.com/meta-introspector/gen-mod-form
+	branch = main
+[submodule "vendor/rustc-stable-hash"]
+	path = vendor/rustc-stable-hash
+	url = https://github.com/meta-introspector/rustc-stable-hash
+	branch = main
+[submodule "vendor/rust-smallvec"]
+	path = vendor/rust-smallvec
+	url = https://github.com/meta-introspector/rust-smallvec
+	branch = gemini-changes
+[submodule "vendor/cranelift"]
+	path = vendor/cranelift
+	url = https://github.com/bytecodealliance/wasmtime.git
+[submodule "vendor/intel-mkl-src"]
+	path = vendor/intel-mkl-src
+	url = https://github.com/rust-math/intel-mkl-src

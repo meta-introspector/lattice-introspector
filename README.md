@@ -7,6 +7,12 @@ For a detailed review of the project's core concepts, implementation highlights,
 
 ## Project Structure and Overview
 
+### Development Notes and Fixed Points
+
+*   **`prime_resonance_23.json` Removal:** The `prime_resonance_23.json` file, previously located in `.gemini/prime_resonances/`, was removed due to its excessive size (approximately 100MB) and its tendency to self-index, leading to an uncontrolled growth in size. This behavior was contrary to the project's goal of creating "fixed points that get smaller" or converge.
+*   **Fixed Point Concept - Meta Slime Simulation:** To explore the concept of "fixed points that get smaller" or converge, a new Rust implementation has been introduced. This code simulates a "meta slime" behavior, where a system iteratively refines its state based on feedback, aiming for a stable, minimal configuration. This serves as a computational metaphor for finding optimal or convergent states within the lattice, contrasting with the divergent behavior observed with `prime_resonance_23.json`. The core idea is to model systems that, through iterative processes, reduce complexity or converge towards a stable, desired state rather than expanding indefinitely.
+
+
 This project is organized into several key directories and top-level files, each contributing to the overall vision of a self-aware, evolving codebase.
 
 ### Top-Level Documentation and Narrative Files

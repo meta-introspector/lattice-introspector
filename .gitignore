@@ -1,2 +1,13 @@
 /data/data/com.termux/files/home/storage/github/rustc/crates/introspector/.gemini/self_proving_step.txt
 /target/
+debug_frames
+extracted_media/
+build_and_run.log
+monochora_23x23_output.txt
+monochora_output.txt
+qa_logs/
+blinkenlights_output.log
+test_traces/
+test_traces_primes/
+#*
+.#*
